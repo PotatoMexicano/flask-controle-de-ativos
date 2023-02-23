@@ -12,6 +12,7 @@
 <body>
 
     <div class="relative flex min-h-screen flex-col justify-center overflow-hidden bg-stone-200/80 py-6 sm:py-12">
+
         <div class="relative bg-white px-6 pb-8 shadow-xl ring-1 ring-gray-900/5 sm:mx-auto sm:max-w-lg sm:rounded-lg sm:px-10">
             <div class="mx-auto max-w-md w-screen">
                 <div class="divide-y divide-gray-300/50">
@@ -20,30 +21,47 @@
                             <h2>
                                 <div class="flex text-center justify-between items-center">
                                     <p class="antialiased font-light text-2xl">Welcome</p>
-                                    <svg class="w-10" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M7.864 4.243A7.5 7.5 0 0119.5 10.5c0 2.92-.556 5.709-1.568 8.268M5.742 6.364A7.465 7.465 0 004.5 10.5a7.464 7.464 0 01-1.15 3.993m1.989 3.559A11.209 11.209 0 008.25 10.5a3.75 3.75 0 117.5 0c0 .527-.021 1.049-.064 1.565M12 10.5a14.94 14.94 0 01-3.6 9.75m6.633-4.596a18.666 18.666 0 01-2.485 5.33"></path>
+                                    <svg class="w-10" fill="none" stroke="currentColor" stroke-width="1.5"
+                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M7.864 4.243A7.5 7.5 0 0119.5 10.5c0 2.92-.556 5.709-1.568 8.268M5.742 6.364A7.465 7.465 0 004.5 10.5a7.464 7.464 0 01-1.15 3.993m1.989 3.559A11.209 11.209 0 008.25 10.5a3.75 3.75 0 117.5 0c0 .527-.021 1.049-.064 1.565M12 10.5a14.94 14.94 0 01-3.6 9.75m6.633-4.596a18.666 18.666 0 01-2.485 5.33">
+                                        </path>
                                     </svg>
                                 </div>
                             </h2>
                         </div>
-                        <form action="" method="">
+                        <form action="{{ url_for('auth.auth_user') }}" method="POST">
                             <div class="mb-6">
-                                {{ form.username.label(class_="mb-2 block text-sm font-medium text-gray-900 dark:text-white") }}
-                                {{ form.username(class_="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500") }}
+                                {{ form.username.label(class_="mb-2 block text-sm font-medium text-gray-900
+                                dark:text-white") }}
+                                {{ form.username(class_="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5
+                                text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600
+                                dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500
+                                dark:focus:ring-blue-500") }}
                             </div>
 
                             <div class="mb-6">
-                                {{ form.password.label(class_="mb-2 block text-sm font-medium text-gray-900 dark:text-white")}}
-                                {{ form.password(class_="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500")}}
+                                {{ form.password.label(class_="mb-2 block text-sm font-medium text-gray-900
+                                dark:text-white")}}
+                                {{ form.password(class_="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5
+                                text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600
+                                dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500
+                                dark:focus:ring-blue-500")}}
                             </div>
 
                             <div class="mb-6 flex items-start">
                                 <div class="flex h-5 items-center">
-                                    {{ form.remember_me(class_="focus:ring-3 h-4 w-4 rounded border border-gray-300 bg-gray-50 focus:ring-blue-300 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600 dark:focus:ring-offset-gray-800")}}
+                                    {{ form.remember_me(class_="focus:ring-3 h-4 w-4 rounded border border-gray-300
+                                    bg-gray-50 focus:ring-blue-300 dark:border-gray-600 dark:bg-gray-700
+                                    dark:ring-offset-gray-800 dark:focus:ring-blue-600
+                                    dark:focus:ring-offset-gray-800")}}
                                 </div>
-                                {{ form.remember_me.label(class_="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300")}}
+                                {{ form.remember_me.label(class_="ml-2 text-sm font-medium text-gray-900
+                                dark:text-gray-300")}}
                             </div>
-                            {{ form.submit(class_="w-full rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 sm:w-auto") }}
+                            {{ form.submit(class_="w-full rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm
+                            font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300
+                            dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 sm:w-auto") }}
                         </form>
                     </div>
                     <div class="pt-8 text-base font-semibold leading-7">
@@ -55,6 +73,32 @@
                 </div>
             </div>
         </div>
+
+        
+        {% with messages = get_flashed_messages(category_filter=["error"]) %}
+        {% if messages %}
+        <div class="absolute w-full top-0">
+            <div class="flex flex-row mt-5 items-center justify-center max-w-screen-sm sm:mx-auto sm:max-w-prose sm:rounded-lg w-full">
+                {% for message in messages %}
+                <div id="alert-3" class="flex p-4 m-6 text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 w-full" role="alert">
+                    <svg aria-hidden="true" class="flex-shrink-0 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                    
+                    <span class="sr-only">Info</span>
+                    <div class="ml-3 text-sm font-medium">
+                        {{message}}
+                    </div>
+                    
+                    <button type="button" class="ml-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700" data-dismiss-target="#alert-3" aria-label="Close">
+                        <span class="sr-only">Close</span>
+                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                    </button>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        {% endwith %}
+        
     </div>
 
 
