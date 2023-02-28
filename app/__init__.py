@@ -1,8 +1,9 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from flask_qrcode import QRcode
+import sqlalchemy.ext.declarative
 from flask_login.login_manager import LoginManager
 from decouple import config
+# from flask_qrcode import QRcode
 
 # Recebe as váriaveis globais
 config.encoding = 'cp1251'
@@ -18,7 +19,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
 db = SQLAlchemy(app)
 
 # qr = QRcode(app)
-# login_manager = LoginManager(app)
+login_manager = LoginManager(app)
 
 
 from app.routes.auth.routes import auth_routes

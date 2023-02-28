@@ -1,10 +1,10 @@
 from flask import Blueprint, render_template, url_for, request, flash, redirect
-
-import bcrypt
-
+from app.models.Model import User
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, Field
 from wtforms.validators import InputRequired, Length
+from flask_login import login_user, logout_user, current_user
+import bcrypt
 
 class LoginForm(FlaskForm):
     
@@ -15,24 +15,36 @@ class LoginForm(FlaskForm):
 
 auth_routes = Blueprint(name='auth', import_name=__name__, template_folder='template', url_prefix='/auth')
 
-@auth_routes.route('/login', methods=['POST'])
+@auth_routes.route('/login', methods=['GET','POST'])
 def auth_user():
     
-    username = request.form.get('username')
-    password = bcrypt.hashpw(password=str(request.form.get('password')).encode(), salt=bcrypt.gensalt())
-    remember = (True if request.form.get('remember_me') == 'y' else False)
+    if request.method == 'GET':
 
-    flash(f"Welcome {username}!", "error")
-    return redirect(url_for('auth.view_login'))
-
-
-@auth_routes.route('/login', methods=['GET'])
-def view_login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        return render_template('login.html')
-
-    data = {'title': 'Login'}
+        form = LoginForm()
+        if form.validate_on_submit(): return render_template('login.html')
+        data = {'title': 'Login'}
+        return render_template('login.html', data=data, form=form)
     
-    return render_template('login.html', data=data, form=form)
+    if request.method == 'POST':
 
+        username = request.form.get('username')
+        password = request.form.get('password')
+        remember = (True if request.form.get('remember_me') == 'y' else False)
+
+        user:User = User.listOne(login = username)
+
+        if user:
+
+            if bcrypt.checkpw(str(password).encode(), str(user.password).encode()):
+
+                login_user(user)
+
+                flash(f"Welcome {user.login}.", "error")
+                return redirect(url_for('auth.auth_user'))
+            
+            flash(f"Invalid credentials.", "error")
+            return redirect(url_for('auth.auth_user'))
+                
+
+        flash(f"Invalid credentials.", "error")
+        return redirect(url_for('auth.auth_user'))

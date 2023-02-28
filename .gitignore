@@ -3,3 +3,5 @@
 *config.js
 *lock.json
 .env
+*.xlsx
+*.ods
