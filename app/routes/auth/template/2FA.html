@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static',filename='dist/css/tailwind_min.css')}}">
+
+    <script src="{{ url_for('static', filename='dist/jquery/jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='dist/sweetalert2/sweetalert2.all.js') }}"></script>
+
+    <title>{{ data.title }}</title>
+</head>
+
+<body>
+    <div class="relative flex min-h-screen flex-col justify-center overflow-hidden bg-stone-200/80 py-6 sm:py-12">
+        <div class="relative bg-white px-6 pb-3 shadow-xl ring-1 ring-gray-900/5 sm:mx-auto sm:max-w-lg sm:rounded-lg">
+            <div class="mx-auto max-w-md sm:w-screen md:w-screen xl:w-screen">
+                <div class="divide-y divide-gray-300/50">
+                    <div class="space-y-6 py-8 text-base leading-7 text-gray-600">
+                        <div class="text-center">
+                            <h2>
+                                <div class="flex justify-center">
+                                    <p class="text-2xl font-light">two factor authentication (2FA)</p>
+                                </div>
+                            </h2>
+                        </div>
+                        <form action="/auth/2FA" method="POST">
+                            <div class="d-flex mb-6 text-center font-semibold">
+                                <div class="grid d-flex mt-10 grid-cols-6 justify-items-center gap-4">
+                                    <div>
+                                        <input name="number1" type="text" class="h-10 w-10 rounded-lg border-stone-300 bg-stone-200/80 text-center text-2xl font-normal" value="" maxlength="1" />
+                                    </div>
+                                    <div>
+                                        <input name="number2" type="text" class="h-10 w-10 rounded-lg border-stone-300 bg-stone-200/80 text-center text-2xl font-normal" value="" maxlength="1" />
+                                    </div>
+                                    <div>
+                                        <input name="number3" type="text" class="h-10 w-10 rounded-lg border-stone-300 bg-stone-200/80 text-center text-2xl font-normal" value="" maxlength="1" />
+                                    </div>
+                                    <div>
+                                        <input name="number4" type="text" class="h-10 w-10 rounded-lg border-stone-300 bg-stone-200/80 text-center text-2xl font-normal" value="" maxlength="1" />
+                                    </div>
+                                    <div>
+                                        <input name="number5" type="text" class="h-10 w-10 rounded-lg border-stone-300 bg-stone-200/80 text-center text-2xl font-normal" value="" maxlength="1" />
+                                    </div>
+                                    <div>
+                                        <input name="number6" type="text" class="h-10 w-10 rounded-lg border-stone-300 bg-stone-200/80 text-center text-2xl font-normal" value="" maxlength="1" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex justify-center">
+                                <button type="submit"
+                                    class="mt-5 w-full max-w-full rounded-lg bg-blue-700 p-2 text-sm font-medium text-white">Enviar</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    {% if data.qrcode %}
+                        <div class="flex justify-center divide-y divide-gray-300/50">
+                            <div class="pt-5 text-base font-semibold leading-7">
+                                <div class="w-40 h-auto">
+                                    <img src="{{ qrcode(data.qrcode) }}" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
+
+</html>
