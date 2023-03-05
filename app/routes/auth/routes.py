@@ -20,24 +20,39 @@ def middleware(fallback, user:User):
     if user.enabled2FA: #if user has 2FA enabled
         
         flaskSession['2FA_USER'] = user.login
+        flaskSession['2FA_AUTHENTICATION'] = True
 
         return redirect(url_for('auth.two_fa_validation'))
     
     else: # if user has'nt 2FA enabled
 
-        login_user(user)
+        login_user(user, remember=flaskSession.get('USER_REMEMBER'))
         return render_template_string(f'<h1>Welcome {user.fullName}</h1>')
 
 @auth_routes.route('/2FA', methods=['GET','POST'])
 def two_fa_validation():
+    
+    if not flaskSession.get('2FA_USER'):
+        # Redirect user to login if session not exists
+        flash('Login required', 'error')
+        return redirect(url_for('auth.auth_user'))
+    
     login_username = flaskSession['2FA_USER']
     user = User.listOne(login = login_username)
+    # Find user object using session 
 
     if request.method == 'GET':
-        return render_template('2FA.html', data={'title':'2FA', 'qrcode': str(user.view_2FA_QRCode()) })
+        # If request is GET, render 2FA page
+        # return render_template('2FA.html', data={'title':'2FA', 'qrcode': str(user.view_2FA_QRCode()) })
+
+        if not flaskSession.get('2FA_AUTHENTICATION'):
+            return render_template_string(f'<h1>Welcome {user.fullName}</h1>')
+        
+        return render_template('2FA.html', data={'title':'2FA'})
+        
     
     if request.method == 'POST':
-        
+        # If request is POST, get data from form
         number1 = int(request.form.get('number1'))
         number2 = int(request.form.get('number2'))
         number3 = int(request.form.get('number3'))
@@ -45,20 +60,28 @@ def two_fa_validation():
         number5 = int(request.form.get('number5'))
         number6 = int(request.form.get('number6'))
         
+        # concate all the six numbers in one
         numberFull = int("".join([str(number1), str(number2), str(number3), str(number4), str(number5), str(number6)]))
 
         if user.validate_2FA(numberFull):
-            print("OK")
+            # the code inputed by user was valid, redirect to homepage
+            flaskSession['2FA_AUTHENTICATION'] = False
         else:
-            print("NOT OK")
+            # the code inputed by user was not valid, redirect to 2FA page again
+            flash("Invalid token","error")
+            return redirect(url_for('auth.two_fa_validation'))
 
-        login_user(user)
+        login_user(user, remember=flaskSession.get('USER_REMEMBER'))
         return render_template_string(f'<h1>Welcome {user.fullName}</h1>')
 
 @auth_routes.route('/login', methods=['GET','POST'])
 def auth_user():
     
     if request.method == 'GET':
+
+        # Check if this alternative is viable, idk if keep it
+        # if flaskSession.get('2FA_AUTHENTICATION') == True:
+        #     return redirect(url_for('auth.two_fa_validation'))
 
         form = LoginForm()
         if form.validate_on_submit(): return render_template('login.html')
@@ -69,7 +92,7 @@ def auth_user():
 
         username = request.form.get('username')
         password = request.form.get('password')
-        remember = (True if request.form.get('remember_me') == 'y' else False)
+        flaskSession['USER_REMEMBER'] = (True if request.form.get('remember_me') == 'y' else False)
 
         user:User = User.listOne(login = username)
 

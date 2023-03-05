@@ -30,22 +30,22 @@
                             <div class="d-flex mb-6 text-center font-semibold">
                                 <div class="grid d-flex mt-10 grid-cols-6 justify-items-center gap-4">
                                     <div>
-                                        <input name="number1" type="text" class="h-10 w-10 rounded-lg border-stone-300 bg-stone-200/80 text-center text-2xl font-normal" value="" maxlength="1" />
+                                        <input name="number1" type="text" class="h-10 w-10 rounded-lg border-stone-300 bg-stone-200/80 text-center text-2xl font-normal input2FA" id="input2FA-1" value="" maxlength="1" required tabindex="1" />
                                     </div>
                                     <div>
-                                        <input name="number2" type="text" class="h-10 w-10 rounded-lg border-stone-300 bg-stone-200/80 text-center text-2xl font-normal" value="" maxlength="1" />
+                                        <input name="number2" type="text" class="h-10 w-10 rounded-lg border-stone-300 bg-stone-200/80 text-center text-2xl font-normal input2FA" id="input2FA-2" value="" maxlength="1" required tabindex="2" />
                                     </div>
                                     <div>
-                                        <input name="number3" type="text" class="h-10 w-10 rounded-lg border-stone-300 bg-stone-200/80 text-center text-2xl font-normal" value="" maxlength="1" />
+                                        <input name="number3" type="text" class="h-10 w-10 rounded-lg border-stone-300 bg-stone-200/80 text-center text-2xl font-normal input2FA" id="input2FA-3" value="" maxlength="1" required tabindex="3" />
                                     </div>
                                     <div>
-                                        <input name="number4" type="text" class="h-10 w-10 rounded-lg border-stone-300 bg-stone-200/80 text-center text-2xl font-normal" value="" maxlength="1" />
+                                        <input name="number4" type="text" class="h-10 w-10 rounded-lg border-stone-300 bg-stone-200/80 text-center text-2xl font-normal input2FA" id="input2FA-4" value="" maxlength="1" required tabindex="4" />
                                     </div>
                                     <div>
-                                        <input name="number5" type="text" class="h-10 w-10 rounded-lg border-stone-300 bg-stone-200/80 text-center text-2xl font-normal" value="" maxlength="1" />
+                                        <input name="number5" type="text" class="h-10 w-10 rounded-lg border-stone-300 bg-stone-200/80 text-center text-2xl font-normal input2FA" id="input2FA-5" value="" maxlength="1" required tabindex="5" />
                                     </div>
                                     <div>
-                                        <input name="number6" type="text" class="h-10 w-10 rounded-lg border-stone-300 bg-stone-200/80 text-center text-2xl font-normal" value="" maxlength="1" />
+                                        <input name="number6" type="text" class="h-10 w-10 rounded-lg border-stone-300 bg-stone-200/80 text-center text-2xl font-normal input2FA" id="input2FA-6" value="" maxlength="1" required tabindex="6" />
                                     </div>
                                 </div>
                             </div>
@@ -65,11 +65,72 @@
                             </div>
                         </div>
                     {% endif %}
+                        
+                    {% with messages = get_flashed_messages(category_filter=["error"]) %}
+                        {% if messages %}
+                            
+                            <script>
+                                Swal.fire({
+                                    title: '{{messages[0]}}',
+                                    icon: 'error',
+                                    toast: true,
+                                    position: 'top-end',
+                                    showConfirmButton: false,
+                                    showCloseButton: true,
+                                    closeButtonHtml: '<button type="button" class="p-4 ml-auto bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 hover:bg-red-200" data-dismiss-target="#alert-2" aria-label="Close"><span class="sr-only">Close</span><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg></button>',
+                                    timer: 5000
+                                });
+                            </script>
+                            
+                        {% endif %}
+                    {% endwith %}
                 </div>
             </div>
         </div>
     </div>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
+<script>
+    function validate(evt) {
+        var theEvent = evt || window.event;
+
+        // Handle paste
+        if (theEvent.type === 'paste') {
+            key = event.clipboardData.getData('text/plain');
+        } else {
+            // Handle key press
+            var key = theEvent.keyCode || theEvent.which;
+            key = String.fromCharCode(key);
+        }
+
+        var regex = /[0-9]|\./;
+        if( !regex.test(key) ) {
+            theEvent.returnValue = false;
+            if(theEvent.preventDefault) theEvent.preventDefault();
+        }
+    
+    }
+
+    $(document).ready(function () {
+        $(".input2FA").mousedown(function(){
+            $(this).val('');
+        });
+
+        $("#input2FA-1").focus();
+        
+        $('.input2FA').keyup(function(e){
+            
+            if (/\D/g.test(this.value)){
+                // Filter non-digits from input value.
+                this.value = this.value.replace(/\D/g, '');
+            }else{
+                var currentInput = $(this).prop('tabindex')
+                var nextInput = currentInput + 1
+                if (nextInput > 6){ $('button').focus(); }else{ $('#input2FA-'+nextInput).focus() }
+            }
+        });
+
+        });
+</script>
 
 </html>
