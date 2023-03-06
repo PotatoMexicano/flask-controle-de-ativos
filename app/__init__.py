@@ -1,9 +1,10 @@
-from flask import Flask
+from flask import Flask, url_for
 from flask_sqlalchemy import SQLAlchemy
 import sqlalchemy.ext.declarative
 from flask_qrcode import QRcode
 from flask_login.login_manager import LoginManager
 from decouple import config
+import pathlib
 # from flask_qrcode import QRcode
 
 # Recebe as váriaveis globais
@@ -26,6 +27,7 @@ login_manager = LoginManager(app)
 
 
 from app.routes.auth.routes import auth_routes
+from app.routes.homepage.routes import home_routes
 
 app.register_blueprint(auth_routes)
-
+app.register_blueprint(home_routes)

@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, render_template_string, url_for, request, flash, redirect, session as flaskSession
+from flask import Blueprint, render_template, url_for, request, flash, redirect, session as flaskSession
 from app.models.Model import User
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, Field
@@ -27,7 +27,7 @@ def middleware(fallback, user:User):
     else: # if user has'nt 2FA enabled
 
         login_user(user, remember=flaskSession.get('USER_REMEMBER'))
-        return render_template_string(f'<h1>Welcome {user.fullName}</h1>')
+        return redirect(url_for('homepage.homepage'))
 
 @auth_routes.route('/2FA', methods=['GET','POST'])
 def two_fa_validation():
@@ -46,7 +46,7 @@ def two_fa_validation():
         # return render_template('2FA.html', data={'title':'2FA', 'qrcode': str(user.view_2FA_QRCode()) })
 
         if not flaskSession.get('2FA_AUTHENTICATION'):
-            return render_template_string(f'<h1>Welcome {user.fullName}</h1>')
+            return redirect(url_for('homepage.homepage'))
         
         return render_template('2FA.html', data={'title':'2FA'})
         
@@ -72,7 +72,7 @@ def two_fa_validation():
             return redirect(url_for('auth.two_fa_validation'))
 
         login_user(user, remember=flaskSession.get('USER_REMEMBER'))
-        return render_template_string(f'<h1>Welcome {user.fullName}</h1>')
+        return redirect(url_for('homepage.homepage'))
 
 @auth_routes.route('/login', methods=['GET','POST'])
 def auth_user():
