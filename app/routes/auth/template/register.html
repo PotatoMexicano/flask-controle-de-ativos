@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static',filename='dist/css/tailwind_min.css')}}">
+
+    <script src="{{ url_for('static', filename='dist/jquery/jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='dist/sweetalert2/sweetalert2.all.js') }}"></script>
+
+    <title>{{ data.title }}</title>
+
+</head>
+
+<body>
+
+    <div class="relative flex min-h-screen flex-col justify-center overflow-hidden bg-stone-200/80 py-6 sm:py-12">
+
+        <div class="relative bg-white px-7 pb-0 shadow-xl ring-1 ring-gray-900/5 sm:mx-auto sm:max-w-lg sm:rounded-lg">
+            <div class="mx-auto max-w-md md:w-screen sm:w-screen">
+                <div class="divide-y divide-gray-300/50">
+                    <div class="space-y-6 py-8 text-base leading-7 text-gray-600">
+                        <div class="text-center">
+                            <h2>
+                                <a href="{{ url_for('auth.auth_user' ) }}">
+                                    <div class="flex items-center text-center">
+                                        <div class="w-10 text-blue-600">
+                                            <svg fill="currentColor" stroke="currentColor" stroke-width="1.5"
+                                                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+                                                aria-hidden="true">
+                                                <path stroke="white" stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M11.25 9l-3 3m0 0l3 3m-3-3h7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+                                                </path>
+                                            </svg>
+                                        </div>
+
+                                        <div class="ml-1 whitespace-nowrap">
+                                            <span
+                                                class="font-medium text-blue-600 dark:text-blue-500 hover:no-underline">Back
+                                                to Login</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </h2>
+                        </div>
+                        <form action="{{ url_for('auth.register_user') }}" method="POST">
+
+                            <div class="relative mb-6">
+                                <div class="absolute inset-y-0 left-0 flex items-center top-7 pl-3 pointer-events-none">
+                                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none"
+                                        stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M5.25 8.25h15m-16.5 7.5h15m-1.8-13.5l-3.9 19.5m-2.1-19.5l-3.9 19.5">
+                                        </path>
+                                    </svg>
+                                </div>
+
+                                {{ form.username.label(class_="mb-2 block text-sm font-medium text-gray-900
+                                dark:text-white") }}
+                                {{ form.username(class_="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5
+                                text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600
+                                dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500
+                                dark:focus:ring-blue-500 pl-10") }}
+                            </div>
+
+                            <div class="relative mb-6">
+                                <div class="absolute inset-y-0 left-0 flex items-center top-7 pl-3 pointer-events-none">
+                                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none"
+                                        stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 00.75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 00-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0112 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 01-.673-.38m0 0A2.18 2.18 0 013 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 013.413-.387m7.5 0V5.25A2.25 2.25 0 0013.5 3h-3a2.25 2.25 0 00-2.25 2.25v.894m7.5 0a48.667 48.667 0 00-7.5 0M12 12.75h.008v.008H12v-.008z">
+                                        </path>
+                                    </svg>
+                                </div>
+                                {{ form.fullName.label(class_="mb-2 block text-sm font-medium text-gray-900
+                                dark:text-white") }}
+                                {{ form.fullName(class_="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5
+                                text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600
+                                dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500
+                                dark:focus:ring-blue-500 pl-10") }}
+                            </div>
+
+                            <div class="relative mb-6">
+
+                                <div class="absolute inset-y-0 left-0 flex items-center top-7 pl-3 pointer-events-none">
+                                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none"
+                                        stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z">
+                                        </path>
+                                    </svg>
+                                </div>
+                                {{ form.password.label(class_="mb-2 block text-sm font-medium text-gray-900
+                                dark:text-white")}}
+                                {{ form.password(class_="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5
+                                text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600
+                                dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500
+                                dark:focus:ring-blue-500 pl-10")}}
+
+                                <button id="BtnShowPassword" value="hidden" type="button"
+                                    class="absolute top-7 right-0 rounded-r-lg border border-blue-700 bg-blue-700 p-2.5 text-sm font-medium text-white hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                    <svg aria-hidden="true" class="h-5 w-5" fill="none" stroke="currentColor"
+                                        stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+                                        aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z">
+                                        </path>
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    </svg>
+                                </button>
+
+                            </div>
+
+                            <div class="mt-10 divide-y divide-gray-300/50">
+                                <div class="space-y-6 py-3 text-base leading-7 text-blue-600">
+                                    <div class="flex justify-around">
+                                        <input class="w-full rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 sm:w-auto"
+                                            id="submit" name="submit" type="submit" value="Register" />
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        $('#BtnShowPassword').on('click', function () {
+            // Execute every user click
+
+            if ($(this).attr('value') == 'hidden') {
+
+                $(this).attr('value', 'visible');
+                $(this).children('svg').remove();
+                $(this).append(`
+                <svg aria-hidden="true" class="h-5 w-5"  fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88"></path>
+                </svg>`)
+                $('#InputPassword').prop('type', 'text')
+
+            } else {
+
+                $(this).attr('value', 'hidden');
+                $(this).children('svg').remove();
+                $(this).append(`
+                <svg aria-hidden="true" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>`)
+                $('#InputPassword').prop('type', 'password')
+
+            }
+
+        });
+    });
+</script>
+
+</html>

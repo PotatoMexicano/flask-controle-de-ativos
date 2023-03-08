@@ -1,9 +1,10 @@
 from flask import Blueprint, request, render_template
-from flask_login import current_user
+from flask_login import current_user, login_required
 from app import app, db
 home_routes = Blueprint(name='homepage', import_name=__name__, template_folder='template', url_prefix='')
 
 @home_routes.route('/', methods=['GET'])
+@login_required
 def homepage():
     if request.method == 'GET':
 

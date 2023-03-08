@@ -16,6 +16,7 @@ class User(db.Model, UserMixin):
     login:str = Column(String(25), unique=True, nullable=False)
     fullName:str = Column(String(100), nullable=False)
     password = Column(String(60), nullable=False)
+    admin_role = Column(Boolean, nullable=False, default=False)
     enabled:bool = Column(Boolean, nullable=False, default=True)
     enabled2FA:bool = Column(Boolean, nullable=False, default=False)
     secret2FA:str = Column(String(32), nullable=True)

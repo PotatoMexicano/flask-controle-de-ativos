@@ -6,8 +6,8 @@ O sistema possibilita o acesso dos usuários por meio de login, cada usuário po
 
 ## Objetivos
 
-- [x] Página de Login
-- [ ] Página de Cadastro
-- [ ] Página de autenticação 2FA
+- [x] Página de Login - Finalizado
+- [x] Página de Cadastro - Design pronto
+- [x] Página de autenticação 2FA - Finalizado
 - [ ] Página Inicial
 - [ ] Página pessoal do Usuário

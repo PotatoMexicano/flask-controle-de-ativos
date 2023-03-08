@@ -12,7 +12,8 @@ with app.app_context():
         fullName = 'Gabriel',
         password = '$2a$12$y0VTmEq1E/c1urez1TPxAOxwNM7L1pqC6t.gVWdBmvug/EtZaNYeq',
         enabled = True,
-        enabled2FA = True
+        enabled2FA = True,
+        admin_role = True
     )
     
     user.update_2FA(user.generate_2FA())

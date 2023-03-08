@@ -1,17 +1,24 @@
 from flask import Blueprint, render_template, url_for, request, flash, redirect, session as flaskSession
 from app.models.Model import User
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, Field
+from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import InputRequired, Length
 from flask_login import login_user, logout_user, current_user
 import bcrypt
 
 class LoginForm(FlaskForm):
     
-    username = StringField('Your username', validators=[InputRequired(), Length(min=3, max=30)])
-    password = PasswordField('Your password', validators=[InputRequired(), Length(min=8, max=64)])
-    remember_me = BooleanField('Keep me logged in', default='y')
+    username = StringField('Your username', validators=[InputRequired(), Length(min=3, max=30)], render_kw={"placeholder": "Jose Silva"})
+    password = PasswordField('Your password', validators=[InputRequired(), Length(min=8, max=64)], render_kw={"placeholder": "Your strong password"}, id='InputPassword')
+    remember_me = BooleanField('Keep me logged in', default='')
     submit = SubmitField('Log In')
+
+class RegisterForm(FlaskForm):
+
+    username = StringField('Your username', validators=[InputRequired(), Length(min=3, max=30)], render_kw={"placeholder": "Jose Silva"})
+    fullName = StringField('Your fullname', validators=[InputRequired(), Length(min=8, max=30)], render_kw={"placeholder": "José da Silva Souza"})
+    password = PasswordField('Your password', validators=[InputRequired(), Length(min=8, max=64)], render_kw={"placeholder": "Your strong password"}, id='InputPassword')
+    submit = SubmitField('Register')
 
 auth_routes = Blueprint(name='auth', import_name=__name__, template_folder='template', url_prefix='/auth')
 
@@ -48,7 +55,7 @@ def two_fa_validation():
         if not flaskSession.get('2FA_AUTHENTICATION'):
             return redirect(url_for('homepage.homepage'))
         
-        return render_template('2FA.html', data={'title':'2FA'})
+        return render_template('2FA.html', data={'title':'2FA', 'qrcode': str(user.view_2FA_QRCode())})
         
     
     if request.method == 'POST':
@@ -108,3 +115,13 @@ def auth_user():
 
         flash(f"Invalid credentials.", "error")
         return redirect(url_for('auth.auth_user'))
+
+@auth_routes.route('/register', methods=['GET','POST'])
+def register_user():
+
+    if request.method == 'GET':
+
+        form = RegisterForm()
+        if form.validate_on_submit(): return render_template('register.html')
+        data = {'title': 'Register'}
+        return render_template('register.html', data=data, form=form)
