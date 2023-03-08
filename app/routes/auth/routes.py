@@ -86,10 +86,6 @@ def auth_user():
     
     if request.method == 'GET':
 
-        # Check if this alternative is viable, idk if keep it
-        # if flaskSession.get('2FA_AUTHENTICATION') == True:
-        #     return redirect(url_for('auth.two_fa_validation'))
-
         form = LoginForm()
         if form.validate_on_submit(): return render_template('login.html')
         data = {'title': 'Login'}
@@ -110,8 +106,7 @@ def auth_user():
                 return middleware(fallback=url_for('auth.auth_user'), user=user)
                         
             flash(f"Invalid credentials.", "error")
-            return redirect(url_for('auth.auth_user'))
-                
+            return redirect(url_for('auth.auth_user'))                
 
         flash(f"Invalid credentials.", "error")
         return redirect(url_for('auth.auth_user'))
@@ -125,3 +120,28 @@ def register_user():
         if form.validate_on_submit(): return render_template('register.html')
         data = {'title': 'Register'}
         return render_template('register.html', data=data, form=form)
+
+    if request.method == 'POST':
+
+        username = str(request.form.get('username')).lower()
+        fullName = str(request.form.get('fullName'))
+        password = bcrypt.hashpw(str(request.form.get('password')).encode(), bcrypt.gensalt(12)).decode()
+
+        if User.listOne(login=username):
+            flash("User already exists","error")
+            return redirect(url_for("auth.register_user"))
+    
+        newUser = User(
+            login = username,
+            fullName = fullName,
+            password = password
+        ).create()
+
+        if newUser:
+            flash("User created successfully","success")
+            return redirect(url_for('auth.auth_user'))
+        else:
+            flash("Failure to create user","error")
+            return redirect(url_for('auth.register_user'))
+
+        

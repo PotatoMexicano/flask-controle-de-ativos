@@ -1,5 +1,5 @@
 from app import app, db, login_manager
-from sqlalchemy import Column, String, Integer, Float, Date, DateTime, Time, Boolean, select, update
+from sqlalchemy import Column, String, Integer, Float, Date, DateTime, Time, Boolean, select, update, insert
 from sqlalchemy.orm import Session
 from flask_login import UserMixin
 from dataclasses import dataclass, asdict
@@ -44,6 +44,18 @@ class User(db.Model, UserMixin):
         import pyotp
         return pyotp.TOTP(self.secret2FA).verify(int(userInput))
     
+    def create(self) -> bool:
+        try:
+        
+            session.add(self)
+            session.commit()
+            session.refresh(self)
+            return True
+        
+        except Exception as stderr:
+            print(f"STDERR -> {stderr}")
+            return False
+
     @login_manager.user_loader
     def listOne(id:int = None, login:str = None):
 
