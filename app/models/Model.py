@@ -41,6 +41,10 @@ class User(db.Model, UserMixin):
         self.secret2FA = str(token)
         session.commit()
 
+    def update_loginAt(self) -> None:
+        self.loginAt = datetime.now()
+        session.commit()
+
     def validate_2FA(self, userInput:int) -> bool:
         import pyotp
         return pyotp.TOTP(self.secret2FA).verify(int(userInput))

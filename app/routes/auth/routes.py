@@ -5,6 +5,7 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import InputRequired, Length
 from flask_login import login_user, logout_user, current_user
 import bcrypt
+from datetime import datetime
 
 class LoginForm(FlaskForm):
     
@@ -36,6 +37,7 @@ def middleware(fallback, user:User):
     else: # if user has'nt 2FA enabled
 
         login_user(user, remember=flaskSession.get('USER_REMEMBER'))
+        user.update_loginAt()
         return redirect(url_for('homepage.homepage'))
 
 @auth_routes.route('/2FA', methods=['GET','POST'])
@@ -81,6 +83,7 @@ def two_fa_validation():
             return redirect(url_for('auth.two_fa_validation'))
 
         login_user(user, remember=flaskSession.get('USER_REMEMBER'))
+        user.update_loginAt()
         return redirect(url_for('homepage.homepage'))
 
 @auth_routes.route('/login', methods=['GET','POST'])
@@ -167,7 +170,6 @@ def deauth_user():
         if current_user.is_authenticated:
 
             logout_user()
-            flaskSession.pop('2FA_AUTHENTICATION') #Force system to clear this variable session, just for security
             flaskSession.clear()
 
         return redirect(url_for('auth.auth_user')) # Redirect user for login page
@@ -176,7 +178,6 @@ def deauth_user():
 
         if current_user.is_authenticated:
             logout_user()
-            flaskSession.pop('2FA_AUTHENTICATION')
             flaskSession.clear()
 
             return jsonify({'message':'Success'})
