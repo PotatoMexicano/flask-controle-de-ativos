@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, url_for, request, flash, redirect, session as flaskSession
+from flask import Blueprint, render_template, url_for, request, flash, redirect, session as flaskSession, jsonify
 from app.models.Model import User
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
@@ -8,7 +8,7 @@ import bcrypt
 
 class LoginForm(FlaskForm):
     
-    username = StringField('Your username', validators=[InputRequired(), Length(min=3, max=30)], render_kw={"placeholder": "Jose Silva"})
+    username = StringField('Your username', validators=[InputRequired(), Length(min=3, max=30)], render_kw={"placeholder": "Jose@Silva.com"})
     password = PasswordField('Your password', validators=[InputRequired(), Length(min=8, max=64)], render_kw={"placeholder": "Your strong password"}, id='InputPassword')
     remember_me = BooleanField('Keep me logged in', default='')
     submit = SubmitField('Log In')
@@ -16,9 +16,11 @@ class LoginForm(FlaskForm):
 class RegisterForm(FlaskForm):
 
     username = StringField('Your username', validators=[InputRequired(), Length(min=3, max=30)], render_kw={"placeholder": "Jose Silva"})
-    fullName = StringField('Your fullname', validators=[InputRequired(), Length(min=8, max=30)], render_kw={"placeholder": "José da Silva Souza"})
+    fullName = StringField('Your fullname', validators=[InputRequired(), Length(min=10, max=30)], render_kw={"placeholder": "José da Silva Souza"})
+    email = StringField('Your email', validators=[InputRequired(), Length(min=8, max=80)], render_kw={"placeholder": "Jose@Silva.com"})
     password = PasswordField('Your password', validators=[InputRequired(), Length(min=8, max=64)], render_kw={"placeholder": "Your strong password"}, id='InputPassword')
     submit = SubmitField('Register')
+
 
 auth_routes = Blueprint(name='auth', import_name=__name__, template_folder='template', url_prefix='/auth')
 
@@ -97,7 +99,19 @@ def auth_user():
         password = request.form.get('password')
         flaskSession['USER_REMEMBER'] = (True if request.form.get('remember_me') == 'y' else False)
 
-        user:User = User.listOne(login = username)
+        def find_emails(text):
+            import re
+            pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+            emails = re.findall(pattern, text)
+            return emails
+
+        emails:list = find_emails(username)
+
+        if len(emails) >= 1:
+            user:User = User.listOne(email = username)
+
+        else:
+            user:User = User.listOne(login = username)
 
         if user:
 
@@ -125,15 +139,17 @@ def register_user():
 
         username = str(request.form.get('username')).lower()
         fullName = str(request.form.get('fullName'))
+        email = str(request.form.get('email'))
         password = bcrypt.hashpw(str(request.form.get('password')).encode(), bcrypt.gensalt(12)).decode()
 
-        if User.listOne(login=username):
+        if User.listOne(login=username) and User.listOne(email=email):
             flash("User already exists","error")
             return redirect(url_for("auth.register_user"))
     
         newUser = User(
             login = username,
             fullName = fullName,
+            email = email,
             password = password
         ).create()
 
@@ -144,4 +160,26 @@ def register_user():
             flash("Failure to create user","error")
             return redirect(url_for('auth.register_user'))
 
+@auth_routes.route('/logoff', methods=['GET', 'POST'])
+def deauth_user():
+    if request.method == 'GET':
         
+        if current_user.is_authenticated:
+
+            logout_user()
+            flaskSession.pop('2FA_AUTHENTICATION') #Force system to clear this variable session, just for security
+            flaskSession.clear()
+
+        return redirect(url_for('auth.auth_user')) # Redirect user for login page
+    
+    if request.method == 'POST':
+
+        if current_user.is_authenticated:
+            logout_user()
+            flaskSession.pop('2FA_AUTHENTICATION')
+            flaskSession.clear()
+
+            return jsonify({'message':'Success'})
+        else:
+            return jsonify({'message':'Error'})
+

@@ -10,13 +10,15 @@ with app.app_context():
     user = User(
         login = 'gabriel',
         fullName = 'Gabriel',
+        email = 'gabriel@email.com',
+        secret2FA = 'LNO4TJILQXOTMILOVTFSV2AWUYIP5RSP',
         password = '$2a$12$y0VTmEq1E/c1urez1TPxAOxwNM7L1pqC6t.gVWdBmvug/EtZaNYeq',
         enabled = True,
         enabled2FA = True,
         admin_role = True
     )
     
-    user.update_2FA(user.generate_2FA())
+    # user.update_2FA(user.generate_2FA())
 
     session.add(user)
     session.commit()

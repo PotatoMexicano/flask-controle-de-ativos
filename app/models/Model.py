@@ -14,6 +14,7 @@ class User(db.Model, UserMixin):
 
     id:int = Column(Integer, primary_key=True, autoincrement=True)
     login:str = Column(String(25), unique=True, nullable=False)
+    email:str = Column(String(80), unique=True, nullable=True)
     fullName:str = Column(String(100), nullable=False)
     password = Column(String(60), nullable=False)
     admin_role = Column(Boolean, nullable=False, default=False)
@@ -57,16 +58,19 @@ class User(db.Model, UserMixin):
             return False
 
     @login_manager.user_loader
-    def listOne(id:int = None, login:str = None):
+    def listOne(id:int = None, login:str = None, email:str = None):
 
-        if not login and not id:
-            return 'endpoint needs [login, id] for search.'
+        if not login and not id and not email:
+            return 'endpoint needs [login, id, email] for search.'
 
         if id:
             raw = select(User).where(User.id == id)
         
         if login:
             raw = select(User).where(User.login == login)
+        
+        if email:
+            raw = select(User).where(User.email == email)
 
         response = session.execute(raw).scalar_one_or_none()
 
