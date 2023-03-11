@@ -5,7 +5,6 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import InputRequired, Length
 from flask_login import login_user, logout_user, current_user
 import bcrypt
-from datetime import datetime
 
 class LoginForm(FlaskForm):
     
@@ -21,7 +20,6 @@ class RegisterForm(FlaskForm):
     email = StringField('Your email', validators=[InputRequired(), Length(min=8, max=80)], render_kw={"placeholder": "Jose@Silva.com"})
     password = PasswordField('Your password', validators=[InputRequired(), Length(min=8, max=64)], render_kw={"placeholder": "Your strong password"}, id='InputPassword')
     submit = SubmitField('Register')
-
 
 auth_routes = Blueprint(name='auth', import_name=__name__, template_folder='template', url_prefix='/auth')
 
@@ -49,7 +47,7 @@ def two_fa_validation():
         return redirect(url_for('auth.auth_user'))
     
     login_username = flaskSession['2FA_USER']
-    user = User.listOne(login = login_username)
+    user = User.list_one(login = login_username)
     # Find user object using session 
 
     if request.method == 'GET':
@@ -83,6 +81,8 @@ def two_fa_validation():
             return redirect(url_for('auth.two_fa_validation'))
 
         login_user(user, remember=flaskSession.get('USER_REMEMBER'))
+        # if all its ok, auth user into system and redirect them to homepage
+
         user.update_loginAt()
         return redirect(url_for('homepage.homepage'))
 
@@ -91,16 +91,31 @@ def auth_user():
     
     if request.method == 'GET':
 
+        resetPassword = False
+        # starts resetPassword with False
+
+        if flaskSession.get('USER_TRY_LOGIN'):
+            # checks if global exists
+            if flaskSession.get('USER_TRY_LOGIN') >= 3:
+                # if counter is more than 3, show alert for change password
+                resetPassword = True
+                flaskSession['USER_TRY_LOGIN'] = 0
+                # reset counter
+
         form = LoginForm()
         if form.validate_on_submit(): return render_template('login.html')
         data = {'title': 'Login'}
-        return render_template('login.html', data=data, form=form)
+        return render_template('login.html', data=data, form=form, resetPassword=resetPassword)
     
     if request.method == 'POST':
+
+        if not flaskSession.get('USER_TRY_LOGIN'): flaskSession['USER_TRY_LOGIN'] = 0
+        # If the var does not exists, create one with initial value zero.
 
         username = request.form.get('username')
         password = request.form.get('password')
         flaskSession['USER_REMEMBER'] = (True if request.form.get('remember_me') == 'y' else False)
+        # receive from front-end values inserted in inputs
 
         def find_emails(text):
             import re
@@ -109,24 +124,34 @@ def auth_user():
             return emails
 
         emails:list = find_emails(username)
-
+        # Check if input's user is an email (using regex for check this)
+        
         if len(emails) >= 1:
-            user:User = User.listOne(email = username)
+            user:User = User.list_one(email = username)
+            # if regex finds one or more emails in the string, try login with this
 
         else:
-            user:User = User.listOne(login = username)
+            user:User = User.list_one(login = username)
+            # else, try like a login
 
         if user:
+            # if the user was found in database, check your password
 
             if bcrypt.checkpw(str(password).encode(), str(user.password).encode()):
 
                 return middleware(fallback=url_for('auth.auth_user'), user=user)
+                #redirect user to middleware for check if 2FA is enabled
                         
+            flaskSession['USER_TRY_LOGIN'] += 1
+            # case if the user insert wrong password, add 1 to counter
+
             flash(f"Invalid credentials.", "error")
-            return redirect(url_for('auth.auth_user'))                
+            return redirect(url_for('auth.auth_user'))
+            # redirect user to login page again
 
         flash(f"Invalid credentials.", "error")
         return redirect(url_for('auth.auth_user'))
+        # redirect user to login page again
 
 @auth_routes.route('/register', methods=['GET','POST'])
 def register_user():
@@ -137,6 +162,7 @@ def register_user():
         if form.validate_on_submit(): return render_template('register.html')
         data = {'title': 'Register'}
         return render_template('register.html', data=data, form=form)
+        # render the register form
 
     if request.method == 'POST':
 
@@ -144,8 +170,11 @@ def register_user():
         fullName = str(request.form.get('fullName'))
         email = str(request.form.get('email'))
         password = bcrypt.hashpw(str(request.form.get('password')).encode(), bcrypt.gensalt(12)).decode()
+        # receive all data from front-end
 
-        if User.listOne(login=username) and User.listOne(email=email):
+        if User.list_one(login=username) and User.list_one(email=email):
+            # check if login and email already exists in database
+
             flash("User already exists","error")
             return redirect(url_for("auth.register_user"))
     
@@ -156,30 +185,37 @@ def register_user():
             password = password
         ).create()
 
+        #create user and persist your data on database
+
         if newUser:
             flash("User created successfully","success")
             return redirect(url_for('auth.auth_user'))
+            # redirect user case success
         else:
             flash("Failure to create user","error")
             return redirect(url_for('auth.register_user'))
+            # redirect user case failure
 
 @auth_routes.route('/logoff', methods=['GET', 'POST'])
 def deauth_user():
     if request.method == 'GET':
         
         if current_user.is_authenticated:
+        # check if user is authenticated, if positive, logoff them
 
             logout_user()
             flaskSession.clear()
 
-        return redirect(url_for('auth.auth_user')) # Redirect user for login page
+        return redirect(url_for('auth.auth_user'))
+        # Redirect user for login page
     
     if request.method == 'POST':
 
         if current_user.is_authenticated:
             logout_user()
             flaskSession.clear()
-
+            
+            #check same things from GET methods, but in this case, returns TRUE or FALSE about success
             return jsonify({'message':'Success'})
         else:
             return jsonify({'message':'Error'})

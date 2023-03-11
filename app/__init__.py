@@ -28,6 +28,8 @@ login_manager = LoginManager(app)
 
 from app.routes.auth.routes import auth_routes
 from app.routes.homepage.routes import home_routes
+from app.routes.logistic_center.routes import logistic_routes
 
 app.register_blueprint(auth_routes)
 app.register_blueprint(home_routes)
+app.register_blueprint(logistic_routes)

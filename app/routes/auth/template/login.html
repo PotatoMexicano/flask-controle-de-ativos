@@ -141,6 +141,25 @@
         
     </div>
 
+    {% if resetPassword %}
+    <script>
+        Swal.fire({
+            title: 'Forgot password ?',
+            icon: 'info',
+            showConfirmButton: true,
+            confirmButtonText: 'Reset here.',
+            showCloseButton: true,
+            confirmButtonColor: '#1D4ED8',
+        }).then((response) => {
+            
+            if (response.isConfirmed){
+                console.log("Redirect user to reset Page")
+                // Issue #1
+            }
+        })
+    </script>
+    {% endif %}
+
 
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>

@@ -3,7 +3,7 @@ from flask import redirect, url_for
 
 @app.errorhandler(404)
 def handler_404(_):
-    return redirect(url_for('auth.auth_user'))
+    return redirect(url_for('homepage.homepage'))
 @app.errorhandler(401)
 def handler_401(_):
     return redirect(url_for('auth.auth_user'))
