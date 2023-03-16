@@ -1,5 +1,5 @@
 from app import app, db, login_manager
-from sqlalchemy import Column, String, Integer, Float, Date, DateTime, Time, Boolean, select, update, insert
+from sqlalchemy import Column, String, Integer, Float, Date, DateTime, Time, Boolean, select, update, insert, ForeignKey
 from sqlalchemy.orm import Session, column_property, reconstructor
 from flask_login import UserMixin
 from dataclasses import dataclass, asdict, field
@@ -14,7 +14,8 @@ class Tag(db.Model):
     __allow_unmapped__ = True
 
     id:int = Column(Integer, primary_key=True, autoincrement=True)
-    name:str = Column(String(10), unique=True, nullable=False)
+    name:str = Column(String(20), unique=True, nullable=False)
+    accentColor:str = Column(String(20), nullable=False, default='purple')
     enabled:bool = Column(Boolean, nullable=False, default=True)
 
     def __repr__(self) -> str:
@@ -123,7 +124,7 @@ class LogisticCenter(db.Model):
     
     def list_all(tags:bool = False):
 
-        raw = select(LogisticCenter)
+        raw = select(LogisticCenter).order_by(LogisticCenter.id)
         response = session.execute(raw).scalars().all()
 
         if not response:
@@ -135,11 +136,53 @@ class LogisticCenter(db.Model):
         return response
 
     def load_tags(self):
+
+        tags = LogisticCenterTag.list_all(self.id)
         
-        self.tags.append('Tag #1')
-        self.tags.append('Tag #2')
-    
+        if tags:
+            self.tags.extend(tags)
+
         return self
+
+@dataclass
+class LogisticCenterTag(db.Model):
+    __tabelname__ = 'logistic_center_tag'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    id_logistic_center = Column(ForeignKey(LogisticCenter.id), nullable=False)
+    id_tag:int = Column(ForeignKey(Tag.id))
+    createAt = Column(DateTime, nullable=False, default=datetime.now)
+
+    def create(self) -> bool:
+        try:
+        
+            session.add(self)
+            session.commit()
+            session.refresh(self)
+            return True
+        
+        except Exception as stderr:
+            print(f"STDERR -> {stderr}")
+            return False
+
+    def list_all(id_logistic_center:int):
+
+        if not id_logistic_center:
+            return 'endpoint needs [id] for search.'
+
+        raw = select(LogisticCenterTag).where(LogisticCenterTag.id_logistic_center == id_logistic_center)
+        response = session.execute(raw).scalars().all()
+
+        if not response:
+            return None
+        
+        tags_object = []
+        for tag in response:
+            object = Tag.list_one(id = tag.id_tag)
+            if object:
+                tags_object.append(object)
+        
+        return tags_object
 
 @dataclass
 class User(db.Model, UserMixin):

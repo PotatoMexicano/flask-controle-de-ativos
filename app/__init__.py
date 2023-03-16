@@ -17,6 +17,7 @@ COMPANY_NAME = config('COMPANY_NAME')
 app = Flask(__name__, static_folder='./static')
 app.config['SECRET_KEY'] = SECRET_KEY
 app.config['COMPANY_NAME'] = COMPANY_NAME
+app.config['JSON_AS_ASCII'] = False
 
 # Configurações do banco de dados
 app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
