@@ -21,7 +21,7 @@ class RegisterForm(FlaskForm):
     password = PasswordField('Your password', validators=[InputRequired(), Length(min=8, max=64)], render_kw={"placeholder": "Your strong password"}, id='InputPassword')
     submit = SubmitField('Register')
 
-auth_routes = Blueprint(name='auth', import_name=__name__, template_folder='template', url_prefix='/auth')
+auth_routes = Blueprint(name='auth', import_name=__name__, template_folder='../templates', url_prefix='/auth')
 
 def middleware(fallback, user:User):
     
@@ -52,12 +52,12 @@ def two_fa_validation():
 
     if request.method == 'GET':
         # If request is GET, render 2FA page
-        # return render_template('2FA.html', data={'title':'2FA', 'qrcode': str(user.view_2FA_QRCode()) })
+        # return render_template('auth/2FA.html', data={'title':'2FA', 'qrcode': str(user.view_2FA_QRCode()) })
 
         if not flaskSession.get('2FA_AUTHENTICATION'):
             return redirect(url_for('homepage.homepage'))
         
-        return render_template('2FA.html', data={'title':'2FA', 'qrcode': str(user.view_2FA_QRCode())})
+        return render_template('auth/2FA.html', data={'title':'2FA', 'qrcode': str(user.view_2FA_QRCode())})
         
     
     if request.method == 'POST':
@@ -103,9 +103,9 @@ def auth_user():
                 # reset counter
 
         form = LoginForm()
-        if form.validate_on_submit(): return render_template('login.html')
+        if form.validate_on_submit(): return render_template('auth/login.html')
         data = {'title': 'Login'}
-        return render_template('login.html', data=data, form=form, resetPassword=resetPassword)
+        return render_template('auth/login.html', data=data, form=form, resetPassword=resetPassword)
     
     if request.method == 'POST':
 
@@ -159,9 +159,9 @@ def register_user():
     if request.method == 'GET':
 
         form = RegisterForm()
-        if form.validate_on_submit(): return render_template('register.html')
+        if form.validate_on_submit(): return render_template('auth/register.html')
         data = {'title': 'Register'}
-        return render_template('register.html', data=data, form=form)
+        return render_template('auth/register.html', data=data, form=form)
         # render the register form
 
     if request.method == 'POST':
@@ -219,4 +219,3 @@ def deauth_user():
             return jsonify({'message':'Success'})
         else:
             return jsonify({'message':'Error'})
-

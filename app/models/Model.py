@@ -1,8 +1,9 @@
 from app import app, db, login_manager
 from sqlalchemy import Column, String, Integer, Float, Date, DateTime, Time, Boolean, select, update, insert, ForeignKey
+from werkzeug.datastructures import ImmutableMultiDict
 from sqlalchemy.orm import Session, column_property, reconstructor
 from flask_login import UserMixin
-from dataclasses import dataclass, asdict, field
+from dataclasses import dataclass
 from datetime import datetime
 
 session:Session = db.session
@@ -92,33 +93,55 @@ class LogisticCenter(db.Model):
     def __repr__(self) -> str:
         return f'<LogisticCenter: {self.name}>'
     
-    def create(self) -> bool:
-        try:
+    def create(self) -> dict:
+
+        if LogisticCenter.list_one(name = self.name):
+            return {'status': False, 'message': 'Object already exist.'}
         
+        try:
+            
             session.add(self)
             session.commit()
             session.refresh(self)
-            return True
+            
+            return {'status': True, 'message': 'Success'}
         
         except Exception as stderr:
-            print(f"STDERR -> {stderr}")
-            return False
 
-    def list_one(id:int = None, tags:bool = False):
+            return {'status': False, 'message': str(stderr)}
 
-        if not id:
-            return 'endpoint needs [id] for search.'
+    def update(self, form:ImmutableMultiDict):
+
+        try:
+            for campo, valor in form.items():
+                setattr(self, campo, valor)
+
+            session.commit()
+            session.refresh(self)
+            return self
+        except:
+            return None
+
+    def list_one(id:int = None, name:str = None, tags:bool = False):
+
+        if not id and not name:
+            return 'endpoint needs [id, name] for search.'
+
+        id = int(id) if str(id).isdigit() else None
 
         if id:
             raw = select(LogisticCenter).where(LogisticCenter.id == id)
         
+        if name:
+            raw = select(LogisticCenter).where(LogisticCenter.name == name)
+
         response = session.execute(raw).scalar_one_or_none()
 
         if not response:
             return None
-        
+
         if tags:
-            response = [r.load_tags() for r in response]
+            response = response.load_tags()
             
         return response
     
@@ -265,3 +288,15 @@ class User(db.Model, UserMixin):
             return None
         
         return response
+
+    def split(self) -> tuple:
+        
+        user_fullName_splited = str(self.fullName).split(' ')
+
+        firstName = user_fullName_splited[0][0]
+        lastName = user_fullName_splited[-1][0]
+
+        if len(user_fullName_splited) == 1:
+            lastName = ''
+
+        return firstName, lastName

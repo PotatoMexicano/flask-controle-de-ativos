@@ -13,7 +13,7 @@ with app.app_context():
 
     user = User(
         login='gabriel',
-        fullName='Gabriel',
+        fullName='Gabriel Antonio Cordeiro',
         email='gabriel@email.com',
         password='$2a$12$y0VTmEq1E/c1urez1TPxAOxwNM7L1pqC6t.gVWdBmvug/EtZaNYeq',
         secret2FA='LNO4TJILQXOTMILOVTFSV2AWUYIP5RSP',
