@@ -1,8 +1,6 @@
 from app import app, db
 from app.models.Model import User
-from app.models.Model import Tag
 from app.models.Model import LogisticCenter
-from app.models.Model import LogisticCenterTag
 from sqlalchemy.orm import Session
 
 session: Session = db.session
@@ -215,13 +213,3 @@ with app.app_context():
         phoneTwo='+55 (19) 34267296',
         email='logistic_15_potato@email.com'
     ).create()
-
-    tag = Tag(name='Own', accentColor='green').create()
-    tag = Tag(name='Rented').create()
-    tag = Tag(name='In progress', accentColor='red').create()
-
-    logistic_tag = LogisticCenterTag(id_logistic_center = 1, id_tag = 1).create()
-    logistic_tag = LogisticCenterTag(id_logistic_center = 2, id_tag = 1).create()
-    logistic_tag = LogisticCenterTag(id_logistic_center = 3, id_tag = 1).create()
-    logistic_tag = LogisticCenterTag(id_logistic_center = 3, id_tag = 3).create()
-    logistic_tag = LogisticCenterTag(id_logistic_center = 4, id_tag = 2).create()

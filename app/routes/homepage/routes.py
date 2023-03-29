@@ -17,5 +17,5 @@ def homepage():
             'logo_alt': app.config['COMPANY_NAME'],
             'company_name': 'Company',
             'userLogoBuilder': str(firstName)+str(lastName),
-            'dataTable': LogisticCenter.list_all(tags=True),
+            'dataTable': LogisticCenter.list_all(),
         })

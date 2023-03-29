@@ -70,7 +70,7 @@ def edit_logistic_center(id:int):
             flash(f"Error when call endpoint","error")
             return jsonify('route require [id] for edit.')
         
-        logistic = LogisticCenter.list_one(id = id, tags=True)
+        logistic = LogisticCenter.list_one(id = id)
 
         if not logistic:
             flash(f"Logistic center not found","error")
@@ -98,15 +98,13 @@ def list_all_logistic_center():
 
     if request.method == 'POST':
 
-        loadTags = bool(request.form.get('tags'))
-
-        all_logistic_center = LogisticCenter.list_all(tags=loadTags)
+        all_logistic_center = LogisticCenter.list_all()
 
         return jsonify(all_logistic_center)
 
     if request.method == 'GET':
 
-        all_logistic_center = LogisticCenter.list_all(tags=True)
+        all_logistic_center = LogisticCenter.list_all()
 
         return jsonify(all_logistic_center)
 
@@ -114,12 +112,9 @@ def list_all_logistic_center():
 @login_required
 def download_list_all_logistic_center():
         if request.method == 'POST':
-            all_logistic_center = LogisticCenter.list_all(tags=True)
+            all_logistic_center = LogisticCenter.list_all()
 
             response = jsonify(all_logistic_center).get_json()
-
-            for index, data in enumerate(response):
-                data['tags'] = ', '.join(str(x) for x in [tag['name'] for tag in data['tags']])
 
             return jsonify(response)
 

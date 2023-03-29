@@ -9,60 +9,6 @@ from datetime import datetime
 session:Session = db.session
 
 @dataclass
-class Tag(db.Model):
-
-    __tabelname__ = 'tag'
-    __allow_unmapped__ = True
-
-    id:int = Column(Integer, primary_key=True, autoincrement=True)
-    name:str = Column(String(20), unique=True, nullable=False)
-    accentColor:str = Column(String(20), nullable=False, default='purple')
-    enabled:bool = Column(Boolean, nullable=False, default=True)
-
-    def __repr__(self) -> str:
-        return f'<Tag: {self.name}>'
-    
-    def create(self) -> bool:
-        try:
-        
-            session.add(self)
-            session.commit()
-            session.refresh(self)
-            return True
-        
-        except Exception as stderr:
-            print(f"STDERR -> {stderr}")
-            return False
-
-    def list_one(id:int = None, name:str = None):
-
-        if not id and not name:
-            return 'endpoint needs [id, name] for search.'
-
-        if id:
-            raw = select(Tag).where(Tag.id == id)
-
-        if name:
-            raw = select(Tag).where(Tag.name == name)
-        
-        response = session.execute(raw).scalar_one_or_none()
-
-        if not response:
-            return None
-        
-        return response
-    
-    def list_all():
-
-        raw = select(Tag)
-        response = session.execute(raw).scalars().all()
-
-        if not response:
-            return None
-        
-        return response
-
-@dataclass
 class LogisticCenter(db.Model):
 
     __tabelname__ = 'logistic_center'
@@ -83,13 +29,7 @@ class LogisticCenter(db.Model):
     email:str = Column(String(45), nullable=False)
     enabled:bool = Column(Boolean, nullable=False, default=True)
     createAt:datetime = Column(DateTime, nullable=False, default=datetime.now)
-
-    tags:list = None
-        
-    @reconstructor
-    def init_on_load(self):
-        self.tags:list = []
-    
+           
     def __repr__(self) -> str:
         return f'<LogisticCenter: {self.name}>'
     
@@ -122,7 +62,7 @@ class LogisticCenter(db.Model):
         except:
             return None
 
-    def list_one(id:int = None, name:str = None, tags:bool = False):
+    def list_one(id:int = None, name:str = None):
 
         if not id and not name:
             return 'endpoint needs [id, name] for search.'
@@ -139,73 +79,18 @@ class LogisticCenter(db.Model):
 
         if not response:
             return None
-
-        if tags:
-            response = response.load_tags()
             
         return response
     
-    def list_all(tags:bool = False):
+    def list_all():
 
         raw = select(LogisticCenter).order_by(LogisticCenter.id)
         response = session.execute(raw).scalars().all()
 
         if not response:
             return None
-        
-        if tags:
-            response = [r.load_tags() for r in response]
-        
+
         return response
-
-    def load_tags(self):
-
-        tags = LogisticCenterTag.list_all(self.id)
-        
-        if tags:
-            self.tags.extend(tags)
-
-        return self
-
-@dataclass
-class LogisticCenterTag(db.Model):
-    __tabelname__ = 'logistic_center_tag'
-
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    id_logistic_center = Column(ForeignKey(LogisticCenter.id), nullable=False)
-    id_tag:int = Column(ForeignKey(Tag.id))
-    createAt = Column(DateTime, nullable=False, default=datetime.now)
-
-    def create(self) -> bool:
-        try:
-        
-            session.add(self)
-            session.commit()
-            session.refresh(self)
-            return True
-        
-        except Exception as stderr:
-            print(f"STDERR -> {stderr}")
-            return False
-
-    def list_all(id_logistic_center:int):
-
-        if not id_logistic_center:
-            return 'endpoint needs [id] for search.'
-
-        raw = select(LogisticCenterTag).where(LogisticCenterTag.id_logistic_center == id_logistic_center)
-        response = session.execute(raw).scalars().all()
-
-        if not response:
-            return None
-        
-        tags_object = []
-        for tag in response:
-            object = Tag.list_one(id = tag.id_tag)
-            if object:
-                tags_object.append(object)
-        
-        return tags_object
 
 @dataclass
 class User(db.Model, UserMixin):
