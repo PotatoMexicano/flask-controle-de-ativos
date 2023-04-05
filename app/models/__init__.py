@@ -5,6 +5,8 @@ from sqlalchemy.orm import Session, column_property, reconstructor
 from flask_login import UserMixin
 from dataclasses import dataclass
 from datetime import datetime
+from typing import Optional
+import locale
 
 session:Session = db.session
 
@@ -93,6 +95,93 @@ class LogisticCenter(db.Model):
         return response
 
 @dataclass
+class Product(db.Model):
+    __tabelname__ = 'logistic_center'
+    __allow_unmapped__ = True
+
+    id:int = Column(Integer, primary_key=True, autoincrement=True)
+    
+    name:str = Column(String(255), unique=True, nullable=False)
+    model:str = Column(String(255), nullable=False)
+    serieNumber:str = Column(String(255), nullable=True)
+    manufacturer:str = Column(String(255), nullable=False)
+    price:float = Column(Float, nullable=False)
+    observation:str = Column(String(255), nullable=True)    
+    createAt:datetime = Column(DateTime, nullable=False, default=datetime.now)
+
+    priceStr:str = None
+
+    def __init__(self, name:str, model:str, serieNumber:str, manufacturer:str, price:float, observation:str = None) -> None:
+
+        self.name = name
+        self.model = model
+        self.serieNumber = serieNumber
+        self.manufacturer = manufacturer
+        self.price = price
+        self.observation = observation
+        
+    def __repr__(self) -> str:
+        return f"<Product: id({self.id})>"
+
+    def gen_fields(self):
+
+        locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
+        self.priceStr = locale.currency(self.price, grouping=True, symbol=True)
+
+        return self
+
+    def create(self) -> dict:
+
+        try:
+            session.add(self)
+            session.commit()
+            session.refresh(self)
+            return {'status': True, 'message': 'Success'}
+        except Exception as stderr:
+            return {'status': False, 'message': str(stderr)}
+
+    def update(self, form:ImmutableMultiDict):
+
+        try:
+            for campo, valor in form.items():
+                setattr(self, campo, valor)
+
+            session.commit()
+            session.refresh(self)
+            return self
+        except:
+            return None
+
+    def list_one(id:int = None):
+
+        if not id:
+            return 'endpoint needs [id] for search.'
+
+        id = int(id) if str(id).isdigit() else None
+
+        if id:
+            raw = select(Product).where(Product.id == id)
+        
+        response = session.execute(raw).scalar_one_or_none()
+
+        if not response:
+            return None
+            
+        return response
+
+    def list_all():
+
+        raw = select(Product).order_by(Product.id)
+        response = session.execute(raw).scalars().all()
+
+        response = [resp.gen_fields() for resp in response]
+
+        if not response:
+            return None
+
+        return response
+
+@dataclass
 class User(db.Model, UserMixin):
 
     __tablename__ = 'users'
@@ -139,7 +228,7 @@ class User(db.Model, UserMixin):
     def validate_2FA(self, userInput:int) -> bool:
         import pyotp
         return pyotp.TOTP(self.secret2FA).verify(int(userInput))
-    
+
     def create(self) -> bool:
         try:
         

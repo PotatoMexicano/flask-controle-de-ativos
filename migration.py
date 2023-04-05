@@ -1,6 +1,7 @@
 from app import app, db
-from app.models.Model import User
-from app.models.Model import LogisticCenter
+from app.models import User
+from app.models import LogisticCenter
+from app.models import Product
 from sqlalchemy.orm import Session
 
 session: Session = db.session
@@ -212,4 +213,29 @@ with app.app_context():
         phoneOne='+55 (19) 998970626',
         phoneTwo='+55 (19) 34267296',
         email='logistic_15_potato@email.com'
+    ).create()
+
+    product = Product(
+        name='Teclado sem fio',
+        manufacturer='Logitech',
+        model='NK0192-2023',
+        price=129.99,
+        serieNumber='24287234'
+    ).create()
+
+    product = Product(
+        name='Mouse sem fio',
+        manufacturer='Logitech',
+        model='NK0132-2023',
+        price=51.99,
+        serieNumber='2428712AA'
+    ).create()
+
+    product = Product(
+        name='Monitor Dell FHD',
+        manufacturer='Dell',
+        model='DELL102-2023',
+        price=1029.99,
+        serieNumber='IWHFD822',
+        observation='1920x1080 144hz 1ms IPS'
     ).create()

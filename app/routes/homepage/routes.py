@@ -1,6 +1,6 @@
 from flask import Blueprint, request, render_template
 from flask_login import current_user, login_required
-from app.models.Model import LogisticCenter
+from app.models import LogisticCenter
 from app import app, db
 
 home_routes = Blueprint(name='homepage', import_name=__name__, template_folder='../templates', url_prefix='')

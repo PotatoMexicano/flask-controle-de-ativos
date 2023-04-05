@@ -1,168 +1,6 @@
 <html>
     <body>
             
-        <!-- Main modal -->
-        <div id="add-new-logistic-center" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
-            <div class="relative h-full max-w-3xl w-full md:h-auto">
-      
-                <!-- Modal content -->
-                <div class="relative rounded-lg bg-white shadow dark:bg-gray-700">
-                  <button type="button" class="absolute top-3 right-2.5 ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-white" data-modal-hide="add-new-logistic-center">
-                    <svg aria-hidden="true" class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                    <span class="sr-only">Close modal</span>
-                  </button>
-                  <div class="px-6 py-6 lg:px-8">
-                    <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Add new Logistic Center</h3>
-                    
-                    <form class="space-y-6" id="form-add-new-logistic-center" name="form-add-new-logistic-center" method="POST" action="{{ url_for('logistic.add_logistic_center') }}">
-              
-                      <div class="mb-4 grid gap-6 md:grid-cols-2">
-                        
-                        <div class="relative">
-                          <label for="modal-name" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Name</label>
-              
-                          <div class="pointer-events-none absolute inset-y-0 left-0 mt-7 flex items-center pl-3">
-                            <svg class="h-5 w-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                              <path clip-rule="evenodd" fill-rule="evenodd" d="M7.5 5.25a3 3 0 013-3h3a3 3 0 013 3v.205c.933.085 1.857.197 2.774.334 1.454.218 2.476 1.483 2.476 2.917v3.033c0 1.211-.734 2.352-1.936 2.752A24.726 24.726 0 0112 15.75c-2.73 0-5.357-.442-7.814-1.259-1.202-.4-1.936-1.541-1.936-2.752V8.706c0-1.434 1.022-2.7 2.476-2.917A48.814 48.814 0 017.5 5.455V5.25zm7.5 0v.09a49.488 49.488 0 00-6 0v-.09a1.5 1.5 0 011.5-1.5h3a1.5 1.5 0 011.5 1.5zm-3 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z"></path>
-                              <path d="M3 18.4v-2.796a4.3 4.3 0 00.713.31A26.226 26.226 0 0012 17.25c2.892 0 5.68-.468 8.287-1.335.252-.084.49-.189.713-.311V18.4c0 1.452-1.047 2.728-2.523 2.923-2.12.282-4.282.427-6.477.427a49.19 49.19 0 01-6.477-.427C4.047 21.128 3 19.852 3 18.4z"></path>
-                            </svg>
-                          </div>
-              
-                          <input type="text" name="name" id="modal-name" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400" placeholder="Logistic Center #1" required />
-                        </div>
-              
-                        <div class="relative">
-                          <label for="modal-address" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Address</label>
-              
-                          <div class="pointer-events-none absolute inset-y-0 left-0 mt-7 flex items-center pl-3">
-                            <svg class="h-5 w-5 text-gray-500 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-map">
-                              <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
-                              <line x1="8" y1="2" x2="8" y2="18"></line>
-                              <line x1="16" y1="6" x2="16" y2="22"></line>
-                            </svg>
-                          </div>
-              
-                          <input type="text" name="address" id="modal-address" placeholder="Street One, 1390" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400" required />
-                        </div>
-              
-                        <div class="relative">
-                          <label for="modal-zipcode" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Zipcode</label>
-              
-                          <div class="pointer-events-none absolute inset-y-0 left-0 mt-7 flex items-center pl-3">
-                            <svg class="h-5 w-5 text-gray-500 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-map">
-                              <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
-                              <line x1="8" y1="2" x2="8" y2="18"></line>
-                              <line x1="16" y1="6" x2="16" y2="22"></line>
-                            </svg>
-                          </div>
-              
-                          <input type="number" name="zipcode" id="modal-zipcode" placeholder="12345-678" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400" required />
-                        </div>
-              
-                        <div class="relative">
-                          <label for="modal-district" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">District</label>
-              
-                          <div class="pointer-events-none absolute inset-y-0 left-0 mt-7 flex items-center pl-3">
-                            <svg class="h-5 w-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                              <path clip-rule="evenodd" fill-rule="evenodd" d="M3 2.25a.75.75 0 000 1.5v16.5h-.75a.75.75 0 000 1.5H15v-18a.75.75 0 000-1.5H3zM6.75 19.5v-2.25a.75.75 0 01.75-.75h3a.75.75 0 01.75.75v2.25a.75.75 0 01-.75.75h-3a.75.75 0 01-.75-.75zM6 6.75A.75.75 0 016.75 6h.75a.75.75 0 010 1.5h-.75A.75.75 0 016 6.75zM6.75 9a.75.75 0 000 1.5h.75a.75.75 0 000-1.5h-.75zM6 12.75a.75.75 0 01.75-.75h.75a.75.75 0 010 1.5h-.75a.75.75 0 01-.75-.75zM10.5 6a.75.75 0 000 1.5h.75a.75.75 0 000-1.5h-.75zm-.75 3.75A.75.75 0 0110.5 9h.75a.75.75 0 010 1.5h-.75a.75.75 0 01-.75-.75zM10.5 12a.75.75 0 000 1.5h.75a.75.75 0 000-1.5h-.75zM16.5 6.75v15h5.25a.75.75 0 000-1.5H21v-12a.75.75 0 000-1.5h-4.5zm1.5 4.5a.75.75 0 01.75-.75h.008a.75.75 0 01.75.75v.008a.75.75 0 01-.75.75h-.008a.75.75 0 01-.75-.75v-.008zm.75 2.25a.75.75 0 00-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 00.75-.75v-.008a.75.75 0 00-.75-.75h-.008zM18 17.25a.75.75 0 01.75-.75h.008a.75.75 0 01.75.75v.008a.75.75 0 01-.75.75h-.008a.75.75 0 01-.75-.75v-.008z"></path>
-                            </svg>
-                          </div>
-              
-                          <input type="text" name="district" id="modal-district" placeholder="District One" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400" required />
-                        </div>
-              
-                        <div class="relative">
-                          <label for="modal-city" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">City</label>
-              
-                          <div class="pointer-events-none absolute inset-y-0 left-0 mt-7 flex items-center pl-3">
-                            <svg class="h-5 w-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                              <path clip-rule="evenodd" fill-rule="evenodd" d="M3 2.25a.75.75 0 000 1.5v16.5h-.75a.75.75 0 000 1.5H15v-18a.75.75 0 000-1.5H3zM6.75 19.5v-2.25a.75.75 0 01.75-.75h3a.75.75 0 01.75.75v2.25a.75.75 0 01-.75.75h-3a.75.75 0 01-.75-.75zM6 6.75A.75.75 0 016.75 6h.75a.75.75 0 010 1.5h-.75A.75.75 0 016 6.75zM6.75 9a.75.75 0 000 1.5h.75a.75.75 0 000-1.5h-.75zM6 12.75a.75.75 0 01.75-.75h.75a.75.75 0 010 1.5h-.75a.75.75 0 01-.75-.75zM10.5 6a.75.75 0 000 1.5h.75a.75.75 0 000-1.5h-.75zm-.75 3.75A.75.75 0 0110.5 9h.75a.75.75 0 010 1.5h-.75a.75.75 0 01-.75-.75zM10.5 12a.75.75 0 000 1.5h.75a.75.75 0 000-1.5h-.75zM16.5 6.75v15h5.25a.75.75 0 000-1.5H21v-12a.75.75 0 000-1.5h-4.5zm1.5 4.5a.75.75 0 01.75-.75h.008a.75.75 0 01.75.75v.008a.75.75 0 01-.75.75h-.008a.75.75 0 01-.75-.75v-.008zm.75 2.25a.75.75 0 00-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 00.75-.75v-.008a.75.75 0 00-.75-.75h-.008zM18 17.25a.75.75 0 01.75-.75h.008a.75.75 0 01.75.75v.008a.75.75 0 01-.75.75h-.008a.75.75 0 01-.75-.75v-.008z"></path>
-                            </svg>
-                          </div>
-              
-                          <input type="text" name="city" id="modal-city" placeholder="São Paulo" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400" required />
-                        </div>
-              
-                        <div class="relative">
-                          <label for="modal-state" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">State</label>
-              
-                          <div class="pointer-events-none absolute inset-y-0 left-0 mt-7 flex items-center pl-3">
-                            <svg class="h-5 w-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                              <path clip-rule="evenodd" fill-rule="evenodd" d="M3 2.25a.75.75 0 000 1.5v16.5h-.75a.75.75 0 000 1.5H15v-18a.75.75 0 000-1.5H3zM6.75 19.5v-2.25a.75.75 0 01.75-.75h3a.75.75 0 01.75.75v2.25a.75.75 0 01-.75.75h-3a.75.75 0 01-.75-.75zM6 6.75A.75.75 0 016.75 6h.75a.75.75 0 010 1.5h-.75A.75.75 0 016 6.75zM6.75 9a.75.75 0 000 1.5h.75a.75.75 0 000-1.5h-.75zM6 12.75a.75.75 0 01.75-.75h.75a.75.75 0 010 1.5h-.75a.75.75 0 01-.75-.75zM10.5 6a.75.75 0 000 1.5h.75a.75.75 0 000-1.5h-.75zm-.75 3.75A.75.75 0 0110.5 9h.75a.75.75 0 010 1.5h-.75a.75.75 0 01-.75-.75zM10.5 12a.75.75 0 000 1.5h.75a.75.75 0 000-1.5h-.75zM16.5 6.75v15h5.25a.75.75 0 000-1.5H21v-12a.75.75 0 000-1.5h-4.5zm1.5 4.5a.75.75 0 01.75-.75h.008a.75.75 0 01.75.75v.008a.75.75 0 01-.75.75h-.008a.75.75 0 01-.75-.75v-.008zm.75 2.25a.75.75 0 00-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 00.75-.75v-.008a.75.75 0 00-.75-.75h-.008zM18 17.25a.75.75 0 01.75-.75h.008a.75.75 0 01.75.75v.008a.75.75 0 01-.75.75h-.008a.75.75 0 01-.75-.75v-.008z"></path>
-                            </svg>
-                          </div>
-              
-                          <input type="text" name="state" id="modal-state" placeholder="São Paulo" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400" required />
-                        </div>
-              
-                        <div class="relative">
-                          <label for="modal-country" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Country</label>
-              
-                          <div class="pointer-events-none absolute inset-y-0 left-0 mt-7 flex items-center pl-3">
-                            <svg class="h-5 w-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                              <path d="M21.721 12.752a9.711 9.711 0 00-.945-5.003 12.754 12.754 0 01-4.339 2.708 18.991 18.991 0 01-.214 4.772 17.165 17.165 0 005.498-2.477zM14.634 15.55a17.324 17.324 0 00.332-4.647c-.952.227-1.945.347-2.966.347-1.021 0-2.014-.12-2.966-.347a17.515 17.515 0 00.332 4.647 17.385 17.385 0 005.268 0zM9.772 17.119a18.963 18.963 0 004.456 0A17.182 17.182 0 0112 21.724a17.18 17.18 0 01-2.228-4.605zM7.777 15.23a18.87 18.87 0 01-.214-4.774 12.753 12.753 0 01-4.34-2.708 9.711 9.711 0 00-.944 5.004 17.165 17.165 0 005.498 2.477zM21.356 14.752a9.765 9.765 0 01-7.478 6.817 18.64 18.64 0 001.988-4.718 18.627 18.627 0 005.49-2.098zM2.644 14.752c1.682.971 3.53 1.688 5.49 2.099a18.64 18.64 0 001.988 4.718 9.765 9.765 0 01-7.478-6.816zM13.878 2.43a9.755 9.755 0 016.116 3.986 11.267 11.267 0 01-3.746 2.504 18.63 18.63 0 00-2.37-6.49zM12 2.276a17.152 17.152 0 012.805 7.121c-.897.23-1.837.353-2.805.353-.968 0-1.908-.122-2.805-.353A17.151 17.151 0 0112 2.276zM10.122 2.43a18.629 18.629 0 00-2.37 6.49 11.266 11.266 0 01-3.746-2.504 9.754 9.754 0 016.116-3.985z"></path>
-                            </svg>
-                          </div>
-              
-                          <input type="text" name="country" id="modal-country" placeholder="Brazil" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400" required />
-                        </div>
-              
-                      </div>
-              
-                      <div class="mb-4 grid gap-6 md:grid-cols-2">
-              
-                        <div class="relative">
-                        <label for="modal-phone-one" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Phone One</label>
-              
-                        <div class="pointer-events-none absolute inset-y-0 left-0 mt-7 flex items-center pl-3">
-                          <svg class="h-5 w-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <path d="M10.5 18.75a.75.75 0 000 1.5h3a.75.75 0 000-1.5h-3z"></path>
-                            <path clip-rule="evenodd" fill-rule="evenodd" d="M8.625.75A3.375 3.375 0 005.25 4.125v15.75a3.375 3.375 0 003.375 3.375h6.75a3.375 3.375 0 003.375-3.375V4.125A3.375 3.375 0 0015.375.75h-6.75zM7.5 4.125C7.5 3.504 8.004 3 8.625 3H9.75v.375c0 .621.504 1.125 1.125 1.125h2.25c.621 0 1.125-.504 1.125-1.125V3h1.125c.621 0 1.125.504 1.125 1.125v15.75c0 .621-.504 1.125-1.125 1.125h-6.75A1.125 1.125 0 017.5 19.875V4.125z"></path>
-                          </svg>
-                        </div>
-              
-                        <input type="text" name="phone-one" id="modal-phone-one" placeholder="+00 (00) 00000-0000" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400" required />
-                      </div>
-              
-                      <div class="relative">
-                        <label for="modal-phone-two" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Phone Two</label>
-              
-                        <div class="pointer-events-none absolute inset-y-0 left-0 mt-7 flex items-center pl-3">
-                          <svg class="h-5 w-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path clip-rule="evenodd" fill-rule="evenodd" d="M1.5 4.5a3 3 0 013-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 01-.694 1.955l-1.293.97c-.135.101-.164.249-.126.352a11.285 11.285 0 006.697 6.697c.103.038.25.009.352-.126l.97-1.293a1.875 1.875 0 011.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 01-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75V4.5z"></path></svg>
-                        </div>
-              
-                        <input type="text" name="phone-two" id="modal-phone-two" placeholder="+00 (00) 00000-0000" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400"/>
-                      </div>
-              
-                      </div>
-
-                      <div class="relative">
-                        <label for="modal-email" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Email</label>
-              
-                        <div class="pointer-events-none absolute inset-y-0 left-0 mt-7 flex items-center pl-3">
-                          <svg aria-hidden="true" class="h-5 w-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
-                          </svg>
-                        </div>
-              
-                        <input type="email" name="email" id="modal-email" placeholder="logistic-center-one@email.com" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400" required />
-                      </div>
-              
-                      <button type="submit" class="w-full rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
-                      
-                    </form>
-    
-                  </div>
-                </div>
-
-              </div>          
-        </div>           
-
-        <div class="hidden">
-            <span class="bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-red-400 border border-red-400"></span>
-            <span class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-green-400 border border-green-400"></span>
-            <span class="bg-purple-100 text-purple-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-purple-400 border border-purple-400"></span>
-        </div>
-
         <p class="text-2xl font-bold dark:text-white mb-5">All Logistic Center</p>
 
         <div class="flex justify-between">
@@ -190,9 +28,7 @@
 
             <button 
             type="button"
-            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 ml-2 md:py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-            data-modal-target="add-new-logistic-center" 
-            data-modal-toggle="add-new-logistic-center">Add new</button>
+            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 ml-2 md:py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onclick="alert_new_item()">Add new</button>
                         
         </div>
         
@@ -226,22 +62,217 @@
         </div>
         
         <script>
-        
-            async function loadCountriesName(){
+
+            async function alert_new_item(){
+              await Swal.fire({
+                width: '50%',
+                confirmButtonColor: '#1A56DB',
+                showConfirmButton: true,
+                allowOutsideClick: false,
+                showCloseButton: true,
+                confirmButtonText: 'Submit',
+                preConfirm: () => {
+                    const name = $('#modal-name').val()
+                    const address = $('#modal-address').val()
+                    const zipcode = $('#modal-zipcode').val()
+                    const district = $('#modal-district').val()
+                    const city = $('#modal-city').val()
+                    const state = $('#modal-state').val()
+                    const country = $('#modal-country').val()
+                    const phone_one = $('#modal-phone-one').val()
+                    const phone_two = $('#modal-phone-two').val()
+                    const email = $('#modal-email').val()
+
+                    if (!name || !address || !zipcode || !district || !city || !state || !country || !phone_one || !email) {
+                      Swal.showValidationMessage(`Please enter required fields`)
+                    }
+
+                    return {
+                      name:name, 
+                      address:address,
+                      zipcode:zipcode,
+                      district:district,
+                      city:city,
+                      state:state,
+                      country:country,
+                      phone_one:phone_one,
+                      phone_two:phone_two,
+                      email:email
+                    }
+                },
+                html: `<div class="px-6 py-6 lg:px-8">
+                    <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Add new Logistic Center</h3>
+                               
+                      <div class="mb-4 grid gap-6 md:grid-cols-2">
+                        
+                        <div class="relative">
+                          <label for="modal-name" class="text-left mb-2 block text-sm font-medium text-gray-900 dark:text-white">Name</label>
+              
+                          <div class="pointer-events-none absolute inset-y-0 left-0 mt-7 flex items-center pl-3">
+                            <svg class="h-5 w-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                              <path clip-rule="evenodd" fill-rule="evenodd" d="M7.5 5.25a3 3 0 013-3h3a3 3 0 013 3v.205c.933.085 1.857.197 2.774.334 1.454.218 2.476 1.483 2.476 2.917v3.033c0 1.211-.734 2.352-1.936 2.752A24.726 24.726 0 0112 15.75c-2.73 0-5.357-.442-7.814-1.259-1.202-.4-1.936-1.541-1.936-2.752V8.706c0-1.434 1.022-2.7 2.476-2.917A48.814 48.814 0 017.5 5.455V5.25zm7.5 0v.09a49.488 49.488 0 00-6 0v-.09a1.5 1.5 0 011.5-1.5h3a1.5 1.5 0 011.5 1.5zm-3 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z"></path>
+                              <path d="M3 18.4v-2.796a4.3 4.3 0 00.713.31A26.226 26.226 0 0012 17.25c2.892 0 5.68-.468 8.287-1.335.252-.084.49-.189.713-.311V18.4c0 1.452-1.047 2.728-2.523 2.923-2.12.282-4.282.427-6.477.427a49.19 49.19 0 01-6.477-.427C4.047 21.128 3 19.852 3 18.4z"></path>
+                            </svg>
+                          </div>
+              
+                          <input type="text" name="name" id="modal-name" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400" placeholder="Logistic Center #1" required />
+                        </div>
+              
+                        <div class="relative">
+                          <label for="modal-address" class="text-left mb-2 block text-sm font-medium text-gray-900 dark:text-white">Address</label>
+              
+                          <div class="pointer-events-none absolute inset-y-0 left-0 mt-7 flex items-center pl-3">
+                            <svg class="h-5 w-5 text-gray-500 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-map">
+                              <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
+                              <line x1="8" y1="2" x2="8" y2="18"></line>
+                              <line x1="16" y1="6" x2="16" y2="22"></line>
+                            </svg>
+                          </div>
+              
+                          <input type="text" name="address" id="modal-address" placeholder="Street One, 1390" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400" required />
+                        </div>
+              
+                        <div class="relative">
+                          <label for="modal-zipcode" class="text-left mb-2 block text-sm font-medium text-gray-900 dark:text-white">Zipcode</label>
+              
+                          <div class="pointer-events-none absolute inset-y-0 left-0 mt-7 flex items-center pl-3">
+                            <svg class="h-5 w-5 text-gray-500 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-map">
+                              <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
+                              <line x1="8" y1="2" x2="8" y2="18"></line>
+                              <line x1="16" y1="6" x2="16" y2="22"></line>
+                            </svg>
+                          </div>
+              
+                          <input type="number" name="zipcode" id="modal-zipcode" placeholder="12345-678" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400" required />
+                        </div>
+              
+                        <div class="relative">
+                          <label for="modal-district" class="text-left mb-2 block text-sm font-medium text-gray-900 dark:text-white">District</label>
+              
+                          <div class="pointer-events-none absolute inset-y-0 left-0 mt-7 flex items-center pl-3">
+                            <svg class="h-5 w-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                              <path clip-rule="evenodd" fill-rule="evenodd" d="M3 2.25a.75.75 0 000 1.5v16.5h-.75a.75.75 0 000 1.5H15v-18a.75.75 0 000-1.5H3zM6.75 19.5v-2.25a.75.75 0 01.75-.75h3a.75.75 0 01.75.75v2.25a.75.75 0 01-.75.75h-3a.75.75 0 01-.75-.75zM6 6.75A.75.75 0 016.75 6h.75a.75.75 0 010 1.5h-.75A.75.75 0 016 6.75zM6.75 9a.75.75 0 000 1.5h.75a.75.75 0 000-1.5h-.75zM6 12.75a.75.75 0 01.75-.75h.75a.75.75 0 010 1.5h-.75a.75.75 0 01-.75-.75zM10.5 6a.75.75 0 000 1.5h.75a.75.75 0 000-1.5h-.75zm-.75 3.75A.75.75 0 0110.5 9h.75a.75.75 0 010 1.5h-.75a.75.75 0 01-.75-.75zM10.5 12a.75.75 0 000 1.5h.75a.75.75 0 000-1.5h-.75zM16.5 6.75v15h5.25a.75.75 0 000-1.5H21v-12a.75.75 0 000-1.5h-4.5zm1.5 4.5a.75.75 0 01.75-.75h.008a.75.75 0 01.75.75v.008a.75.75 0 01-.75.75h-.008a.75.75 0 01-.75-.75v-.008zm.75 2.25a.75.75 0 00-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 00.75-.75v-.008a.75.75 0 00-.75-.75h-.008zM18 17.25a.75.75 0 01.75-.75h.008a.75.75 0 01.75.75v.008a.75.75 0 01-.75.75h-.008a.75.75 0 01-.75-.75v-.008z"></path>
+                            </svg>
+                          </div>
+              
+                          <input type="text" name="district" id="modal-district" placeholder="District One" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400" required />
+                        </div>
+              
+                        <div class="relative">
+                          <label for="modal-city" class="text-left mb-2 block text-sm font-medium text-gray-900 dark:text-white">City</label>
+              
+                          <div class="pointer-events-none absolute inset-y-0 left-0 mt-7 flex items-center pl-3">
+                            <svg class="h-5 w-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                              <path clip-rule="evenodd" fill-rule="evenodd" d="M3 2.25a.75.75 0 000 1.5v16.5h-.75a.75.75 0 000 1.5H15v-18a.75.75 0 000-1.5H3zM6.75 19.5v-2.25a.75.75 0 01.75-.75h3a.75.75 0 01.75.75v2.25a.75.75 0 01-.75.75h-3a.75.75 0 01-.75-.75zM6 6.75A.75.75 0 016.75 6h.75a.75.75 0 010 1.5h-.75A.75.75 0 016 6.75zM6.75 9a.75.75 0 000 1.5h.75a.75.75 0 000-1.5h-.75zM6 12.75a.75.75 0 01.75-.75h.75a.75.75 0 010 1.5h-.75a.75.75 0 01-.75-.75zM10.5 6a.75.75 0 000 1.5h.75a.75.75 0 000-1.5h-.75zm-.75 3.75A.75.75 0 0110.5 9h.75a.75.75 0 010 1.5h-.75a.75.75 0 01-.75-.75zM10.5 12a.75.75 0 000 1.5h.75a.75.75 0 000-1.5h-.75zM16.5 6.75v15h5.25a.75.75 0 000-1.5H21v-12a.75.75 0 000-1.5h-4.5zm1.5 4.5a.75.75 0 01.75-.75h.008a.75.75 0 01.75.75v.008a.75.75 0 01-.75.75h-.008a.75.75 0 01-.75-.75v-.008zm.75 2.25a.75.75 0 00-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 00.75-.75v-.008a.75.75 0 00-.75-.75h-.008zM18 17.25a.75.75 0 01.75-.75h.008a.75.75 0 01.75.75v.008a.75.75 0 01-.75.75h-.008a.75.75 0 01-.75-.75v-.008z"></path>
+                            </svg>
+                          </div>
+              
+                          <input type="text" name="city" id="modal-city" placeholder="São Paulo" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400" required />
+                        </div>
+              
+                        <div class="relative">
+                          <label for="modal-state" class="text-left mb-2 block text-sm font-medium text-gray-900 dark:text-white">State</label>
+              
+                          <div class="pointer-events-none absolute inset-y-0 left-0 mt-7 flex items-center pl-3">
+                            <svg class="h-5 w-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                              <path clip-rule="evenodd" fill-rule="evenodd" d="M3 2.25a.75.75 0 000 1.5v16.5h-.75a.75.75 0 000 1.5H15v-18a.75.75 0 000-1.5H3zM6.75 19.5v-2.25a.75.75 0 01.75-.75h3a.75.75 0 01.75.75v2.25a.75.75 0 01-.75.75h-3a.75.75 0 01-.75-.75zM6 6.75A.75.75 0 016.75 6h.75a.75.75 0 010 1.5h-.75A.75.75 0 016 6.75zM6.75 9a.75.75 0 000 1.5h.75a.75.75 0 000-1.5h-.75zM6 12.75a.75.75 0 01.75-.75h.75a.75.75 0 010 1.5h-.75a.75.75 0 01-.75-.75zM10.5 6a.75.75 0 000 1.5h.75a.75.75 0 000-1.5h-.75zm-.75 3.75A.75.75 0 0110.5 9h.75a.75.75 0 010 1.5h-.75a.75.75 0 01-.75-.75zM10.5 12a.75.75 0 000 1.5h.75a.75.75 0 000-1.5h-.75zM16.5 6.75v15h5.25a.75.75 0 000-1.5H21v-12a.75.75 0 000-1.5h-4.5zm1.5 4.5a.75.75 0 01.75-.75h.008a.75.75 0 01.75.75v.008a.75.75 0 01-.75.75h-.008a.75.75 0 01-.75-.75v-.008zm.75 2.25a.75.75 0 00-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 00.75-.75v-.008a.75.75 0 00-.75-.75h-.008zM18 17.25a.75.75 0 01.75-.75h.008a.75.75 0 01.75.75v.008a.75.75 0 01-.75.75h-.008a.75.75 0 01-.75-.75v-.008z"></path>
+                            </svg>
+                          </div>
+              
+                          <input type="text" name="state" id="modal-state" placeholder="São Paulo" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400" required />
+                        </div>
+              
+                        <div class="relative">
+                          <label for="modal-country" class="text-left mb-2 block text-sm font-medium text-gray-900 dark:text-white">Country</label>
+              
+                          <div class="pointer-events-none absolute inset-y-0 left-0 mt-7 flex items-center pl-3">
+                            <svg class="h-5 w-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                              <path d="M21.721 12.752a9.711 9.711 0 00-.945-5.003 12.754 12.754 0 01-4.339 2.708 18.991 18.991 0 01-.214 4.772 17.165 17.165 0 005.498-2.477zM14.634 15.55a17.324 17.324 0 00.332-4.647c-.952.227-1.945.347-2.966.347-1.021 0-2.014-.12-2.966-.347a17.515 17.515 0 00.332 4.647 17.385 17.385 0 005.268 0zM9.772 17.119a18.963 18.963 0 004.456 0A17.182 17.182 0 0112 21.724a17.18 17.18 0 01-2.228-4.605zM7.777 15.23a18.87 18.87 0 01-.214-4.774 12.753 12.753 0 01-4.34-2.708 9.711 9.711 0 00-.944 5.004 17.165 17.165 0 005.498 2.477zM21.356 14.752a9.765 9.765 0 01-7.478 6.817 18.64 18.64 0 001.988-4.718 18.627 18.627 0 005.49-2.098zM2.644 14.752c1.682.971 3.53 1.688 5.49 2.099a18.64 18.64 0 001.988 4.718 9.765 9.765 0 01-7.478-6.816zM13.878 2.43a9.755 9.755 0 016.116 3.986 11.267 11.267 0 01-3.746 2.504 18.63 18.63 0 00-2.37-6.49zM12 2.276a17.152 17.152 0 012.805 7.121c-.897.23-1.837.353-2.805.353-.968 0-1.908-.122-2.805-.353A17.151 17.151 0 0112 2.276zM10.122 2.43a18.629 18.629 0 00-2.37 6.49 11.266 11.266 0 01-3.746-2.504 9.754 9.754 0 016.116-3.985z"></path>
+                            </svg>
+                          </div>
+              
+                          <input type="text" name="country" id="modal-country" placeholder="Brazil" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400" required />
+                        </div>
+              
+                      </div>
+              
+                      <div class="mb-4 grid gap-6 md:grid-cols-2">
+              
+                        <div class="relative">
+                        <label for="modal-phone-one" class="text-left mb-2 block text-sm font-medium text-gray-900 dark:text-white">Phone One</label>
+              
+                        <div class="pointer-events-none absolute inset-y-0 left-0 mt-7 flex items-center pl-3">
+                          <svg class="h-5 w-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M10.5 18.75a.75.75 0 000 1.5h3a.75.75 0 000-1.5h-3z"></path>
+                            <path clip-rule="evenodd" fill-rule="evenodd" d="M8.625.75A3.375 3.375 0 005.25 4.125v15.75a3.375 3.375 0 003.375 3.375h6.75a3.375 3.375 0 003.375-3.375V4.125A3.375 3.375 0 0015.375.75h-6.75zM7.5 4.125C7.5 3.504 8.004 3 8.625 3H9.75v.375c0 .621.504 1.125 1.125 1.125h2.25c.621 0 1.125-.504 1.125-1.125V3h1.125c.621 0 1.125.504 1.125 1.125v15.75c0 .621-.504 1.125-1.125 1.125h-6.75A1.125 1.125 0 017.5 19.875V4.125z"></path>
+                          </svg>
+                        </div>
+              
+                        <input type="text" name="phone-one" id="modal-phone-one" placeholder="+00 (00) 00000-0000" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400" required />
+                      </div>
+              
+                      <div class="relative">
+                        <label for="modal-phone-two" class="text-left mb-2 block text-sm font-medium text-gray-900 dark:text-white">Phone Two</label>
+              
+                        <div class="pointer-events-none absolute inset-y-0 left-0 mt-7 flex items-center pl-3">
+                          <svg class="h-5 w-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path clip-rule="evenodd" fill-rule="evenodd" d="M1.5 4.5a3 3 0 013-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 01-.694 1.955l-1.293.97c-.135.101-.164.249-.126.352a11.285 11.285 0 006.697 6.697c.103.038.25.009.352-.126l.97-1.293a1.875 1.875 0 011.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 01-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75V4.5z"></path></svg>
+                        </div>
+              
+                        <input type="text" name="phone-two" id="modal-phone-two" placeholder="+00 (00) 00000-0000" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400"/>
+                      </div>
+              
+                      </div>
+
+                      <div class="relative">
+                        <label for="modal-email" class="text-left mb-2 block text-sm font-medium text-gray-900 dark:text-white">Email</label>
+              
+                        <div class="pointer-events-none absolute inset-y-0 left-0 mt-7 flex items-center pl-3">
+                          <svg aria-hidden="true" class="h-5 w-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+                          </svg>
+                        </div>
+              
+                        <input type="email" name="email" id="modal-email" placeholder="logistic-center-one@email.com" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400" required />
+                      </div>
+              
+                  </div>`
+              })
+              .then((result) => {
                 $.ajax({
-                    url: '/logistic/list-all-countries',
-                    method: 'POST',
-                    async: true,
-                    contentType: 'JSON',
-                    cache: true,
-                    crossDomain: true
-                }).done( function(data){
-                    console.log(data)
-                }).fail(function(err){
-                    console.log(err)
-                });
+                  method: 'POST',
+                  url: '/logistic/add',
+                  crossDomain: true,
+                  data: result.value,
+                  async: false,
+                  success: function(data){
+
+                    Swal.fire({
+                      title: data.message,
+                      icon: 'success',
+                      toast: true,
+                      position: 'top-end',
+                      showConfirmButton: false,
+                      showCloseButton: true,
+                      closeButtonHtml: '<button type="button" class="p-4 ml-auto bg-green-50 text-green-500 rounded-lg focus:ring-2 focus:ring-green-400 hover:bg-green-200" data-dismiss-target="#alert-2" aria-label="Close"><span class="sr-only">Close</span><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg></button>',
+                      timer: 5000
+                    });
+                    loadDataOnTable()
+                  },
+                  error: function(err){
+                    Swal.fire({
+                      title: data.message,
+                      icon: 'error',
+                      toast: true,
+                      position: 'top-end',
+                      showConfirmButton: false,
+                      showCloseButton: true,
+                      closeButtonHtml: '<button type="button" class="p-4 ml-auto bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 hover:bg-red-200" data-dismiss-target="#alert-2" aria-label="Close"><span class="sr-only">Close</span><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg></button>',
+                      timer: 5000
+                    });
+                  },
+                })
+              })
             }
-            
+                    
             async function loadDataOnTable(){
 
                 $('#table-logistic-center tbody').empty();
@@ -270,7 +301,7 @@
                                     <div class="flex items-center">` + printStatusOnTable(value.enabled) + `</div>
                                 </td>
                                 <td class="px-6 py-4">
-                                  <a class="font-medium text-blue-600 dark:text-blue-500 hover:underline" href="/logistic/edit/`+value.id+`">Edit</a>
+                                  <button value=`+ value.id +` class="btn_edit_item font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</button>
                                 </td>
                             </tr>
                             `);
@@ -343,57 +374,19 @@
             $(document).ready(function(){      
                 
                 loadDataOnTable()
-                loadCountriesName()
+
+                $(document).on('click','.btn_edit_item', function(){
+                    console.log($(this).val())
+                })
                         
-                $("#search-table").on('input', function() {
-                    
+                $("#search-table").on('input', function() {                    
                     var value = $("#search-table").val().toLowerCase();
                     $("#table-logistic-center tbody tr").filter(function() {
                         $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
                     });
         
                 })
-        
-                $('#form-add-new-logistic-center').submit(function(e) {
-                    e.preventDefault();
-        
-                    var form = $(this);
-                    var actionUrl = form.attr('action');
-        
-                    $.ajax({
-                        type: 'POST',
-                        url: actionUrl,
-                        data: form.serialize(),
-                    }).done( function(data) {
-
-                      Swal.fire({
-                            title: 'Success',
-                            icon: 'success',
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            showCloseButton: true,
-                            closeButtonHtml: '<button type="button" class="p-4 ml-auto bg-green-50 text-green-500 rounded-lg focus:ring-2 focus:ring-green-400 hover:bg-green-200" data-dismiss-target="#alert-2" aria-label="Close"><span class="sr-only">Close</span><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg></button>',
-                            timer: 2000
-                        });
-                        
-                        loadDataOnTable()
-        
-                    }).fail(function(data) {
-
-                        Swal.fire({
-                            title: data.responseJSON.message,
-                            icon: 'error',
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            showCloseButton: true,
-                            closeButtonHtml: '<button type="button" class="p-4 ml-auto bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 hover:bg-red-200" data-dismiss-target="#alert-2" aria-label="Close"><span class="sr-only">Close</span><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg></button>',
-                            timer: 2000
-                        });
-                    });
-                });
-        
+                
             });
         
         </script>

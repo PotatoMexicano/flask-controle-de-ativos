@@ -1,7 +1,7 @@
 from flask import Blueprint, request, render_template, jsonify, redirect, url_for, flash
 from flask_login import current_user, login_required
 from werkzeug.datastructures import ImmutableMultiDict
-from app.models.Model import LogisticCenter
+from app.models import LogisticCenter
 from app import app, db
 
 logistic_routes = Blueprint(name='logistic', import_name=__name__, template_folder='../templates', url_prefix='/logistic')
@@ -40,8 +40,8 @@ def add_logistic_center():
             city = request.form.get('city'),
             state = request.form.get('state'),
             country = request.form.get('country'),
-            phoneOne = request.form.get('phone-one'),
-            phoneTwo = request.form.get('phone-two'),
+            phoneOne = request.form.get('phone_one'),
+            phoneTwo = request.form.get('phone_two'),
             email = request.form.get('email')
         ).create()
 
@@ -117,5 +117,3 @@ def download_list_all_logistic_center():
             response = jsonify(all_logistic_center).get_json()
 
             return jsonify(response)
-
-
