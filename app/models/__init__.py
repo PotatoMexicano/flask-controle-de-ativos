@@ -31,6 +31,8 @@ class LogisticCenter(db.Model):
     email:str = Column(String(45), nullable=False)
     enabled:bool = Column(Boolean, nullable=False, default=True)
     createAt:datetime = Column(DateTime, nullable=False, default=datetime.now)
+    
+    checked:str = ""
            
     def __repr__(self) -> str:
         return f'<LogisticCenter: {self.name}>'
@@ -81,6 +83,9 @@ class LogisticCenter(db.Model):
 
         if not response:
             return None
+    
+        if response.enabled:
+            response.checked = 'checked'
             
         return response
     

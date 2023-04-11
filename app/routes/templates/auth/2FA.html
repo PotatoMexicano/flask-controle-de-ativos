@@ -28,42 +28,26 @@
                         </div>
                         <form action="/auth/2FA" method="POST">
                             <div class="d-flex mb-6 text-center font-semibold">
-                                <div class="grid d-flex mt-10 grid-cols-6 justify-items-center gap-4">
+                                <div class="d-flex mt-10 justify-items-center">
                                     <div>
-                                        <input name="number1" type="text" class="h-10 w-10 rounded-lg border-stone-300 bg-stone-200/80 text-center text-2xl font-normal input2FA" id="input2FA-1" value="" maxlength="1" required tabindex="1" />
-                                    </div>
-                                    <div>
-                                        <input name="number2" type="text" class="h-10 w-10 rounded-lg border-stone-300 bg-stone-200/80 text-center text-2xl font-normal input2FA" id="input2FA-2" value="" maxlength="1" required tabindex="2" />
-                                    </div>
-                                    <div>
-                                        <input name="number3" type="text" class="h-10 w-10 rounded-lg border-stone-300 bg-stone-200/80 text-center text-2xl font-normal input2FA" id="input2FA-3" value="" maxlength="1" required tabindex="3" />
-                                    </div>
-                                    <div>
-                                        <input name="number4" type="text" class="h-10 w-10 rounded-lg border-stone-300 bg-stone-200/80 text-center text-2xl font-normal input2FA" id="input2FA-4" value="" maxlength="1" required tabindex="4" />
-                                    </div>
-                                    <div>
-                                        <input name="number5" type="text" class="h-10 w-10 rounded-lg border-stone-300 bg-stone-200/80 text-center text-2xl font-normal input2FA" id="input2FA-5" value="" maxlength="1" required tabindex="5" />
-                                    </div>
-                                    <div>
-                                        <input name="number6" type="text" class="h-10 w-10 rounded-lg border-stone-300 bg-stone-200/80 text-center text-2xl font-normal input2FA" id="input2FA-6" value="" maxlength="1" required tabindex="6" />
+                                        <input name="number" type="text" class="input2FA h-10 w-44 rounded-lg border border-stone-300 bg-stone-200/80 text-center text-2xl font-normal tracking-widest" id="input2FA" value="" maxlength="6" required tabindex="1" />
                                     </div>
                                 </div>
                             </div>
                             <div class="flex justify-center">
-                                <button type="submit"
-                                    class="mt-5 w-full max-w-full rounded-lg bg-blue-700 p-2 text-sm font-medium text-white">Enviar</button>
+                                <button type="submit" class="mt-5 w-96 max-w-full rounded-lg bg-blue-700 p-2 text-sm font-medium text-white">Enviar</button>
                             </div>
                         </form>
                     </div>
                     
                     {% if data.qrcode %}
-                        <div class="flex justify-center divide-y divide-gray-300/50">
+                        <!-- <div class="flex justify-center divide-y divide-gray-300/50">
                             <div class="pt-5 text-base font-semibold leading-7">
                                 <div class="w-40 h-auto">
                                     <img src="{{ qrcode(data.qrcode) }}" alt="">
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     {% endif %}
                         
                     {% with messages = get_flashed_messages(category_filter=["error"]) %}
@@ -112,9 +96,6 @@
     }
 
     $(document).ready(function () {
-        $(".input2FA").mousedown(function(){
-            $(this).val('');
-        });
 
         $("#input2FA-1").focus();
         

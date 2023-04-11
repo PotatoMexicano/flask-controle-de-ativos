@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "flask3-0"
+version = "3.0.0"
+description = "Sistema web de controle de ativos e gestão de bens da empresa"
+authors = ["Potato Mexicano <potatomexicano006@yahoo.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "flask3"}]
+
+[tool.poetry.dependencies]
+python = "3.9.10"
+flask = "^2.2.3"
+flask-login = "^0.6.2"
+sqlalchemy = "^2.0.9"
+flask-qrcode = "^3.1.0"
+python-decouple = "^3.8"
+flask-sqlalchemy = "^3.0.3"
+flask-wtf = "^1.1.1"
+bcrypt = "^4.0.1"
+pyotp = "^2.8.0"
+psycopg2 = "^2.9.6"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

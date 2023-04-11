@@ -4,7 +4,7 @@ from werkzeug.datastructures import ImmutableMultiDict
 from app.models import LogisticCenter
 from app import app, db
 
-logistic_routes = Blueprint(name='logistic', import_name=__name__, template_folder='../templates', url_prefix='/logistic')
+logistic_routes = Blueprint(name='logistic', import_name=__name__, template_folder='templates', url_prefix='/logistic')
 
 def load_data():
     firstName, lastName = current_user.split()
@@ -20,12 +20,7 @@ def load_data():
 @login_required
 def render_table_logistic_center():   
 
-    return render_template('logistic/homepage.html', data = load_data())
-
-@logistic_routes.route('/list-all-countries', methods=['POST'])
-def list_all_countries():
-    from restcountries import RestCountryApiV2 as rapi
-    return jsonify([a.name for a in rapi.get_all()])
+    return render_template('homepage.html', data = load_data())
 
 @logistic_routes.route('/add', methods=['POST'])
 @login_required
@@ -53,44 +48,40 @@ def add_logistic_center():
 
 @logistic_routes.route('/edit/<id>', methods=['GET','POST'])
 @login_required
-def edit_logistic_center(id:int):
-    
-    if request.method == 'GET':
+def edit_logistic_center(id: int):
 
-        logistic_center = LogisticCenter.list_one(id = id)
-
-        if logistic_center:
-            return render_template('logistic/edit.html', data=load_data(), logistic=logistic_center)
-
-        return redirect(url_for('logistic.render_table_logistic_center'))
-    
     if request.method == 'POST':
-        
+
         if not id:
             flash(f"Error when call endpoint","error")
             return jsonify('route require [id] for edit.')
-        
+
         logistic = LogisticCenter.list_one(id = id)
 
         if not logistic:
             flash(f"Logistic center not found","error")
             return jsonify(None)
+
+        request_original = request.form
         
-        request_without_enabled = request.form
+        checked = request.form.get('checked')
+        
+        checked = True if checked == 'true' else False
 
-        enabled = request_without_enabled.get('enabled')
-
-        enabled = True if enabled == 'on' else False
-
-        if enabled:
-            request_without_enabled = ImmutableMultiDict([(k, v) for k, v in request_without_enabled.items() if k != 'enabled'])
-
-        request_with_enabled = ImmutableMultiDict(list(request_without_enabled.items()) + [('enabled', enabled)])
+        request_with_enabled = ImmutableMultiDict(list(request_original.items()) + [('enabled', bool(checked))])
 
         logistic.update(request_with_enabled)
-        
+
         flash(f"Logistic center updated !","success")
-        return redirect(url_for('logistic.edit_logistic_center', id=id))
+        return redirect(url_for('logistic.render_table_logistic_center'))
+
+@logistic_routes.route('/list-one/<id>', methods=['GET','POST'])
+@login_required
+def list_one_logistic_center(id: int):
+        
+    one_logistic_center = LogisticCenter.list_one(id=id)
+        
+    return jsonify(one_logistic_center)
 
 @logistic_routes.route('/list-all', methods=['GET','POST'])
 @login_required
