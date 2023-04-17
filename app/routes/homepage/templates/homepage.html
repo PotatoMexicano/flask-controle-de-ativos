@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
-{% block header %}
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,34 +7,32 @@
 
     <script src="{{ url_for('static', filename='dist/jquery/jquery.js') }}"></script>
     <script src="{{ url_for('static', filename='dist/sweetalert2/sweetalert2.all.js') }}"></script>
-    
     <link rel="stylesheet" href="{{url_for('static',filename='dist/css/tailwind_min.css')}}">
-    
     <script src="{{ url_for('static', filename='dist/json-to-excel/excelexportjs.js') }}"></script>
-    
-</head>
-{% endblock %}
 
+    <title>{{ data.title }}</title>
+</head>
 <body>
 
-<script src="{{ url_for('static', filename='dist/flowbite/flowbite.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='dist/flowbite/flowbite.min.js') }}"></script>
 
-{% include './modules/navbar/navbar.html' %}
-{% include './modules/sidebar/sidebar.html' %}
 
+    {% include './modules/navbar/navbar.html' %}
+    {% include './modules/sidebar/sidebar.html' %}
 
     <div class="p-4 sm:ml-64">
 
         <div class="p-4 rounded-lg dark:border-gray-700 mt-14">
             
-            {% block content %}
-                
-            {% endblock %}
+            <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Welcome to homepage</h1>
+    
+            <p>
+                {{ lipsum(n=12, html=True, min=20, max=255) }}
+            </p>
 
         </div>
 
     </div>
 
 </body>
-
 </html>

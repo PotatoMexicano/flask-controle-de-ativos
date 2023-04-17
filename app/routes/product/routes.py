@@ -4,7 +4,7 @@ from werkzeug.datastructures import ImmutableMultiDict
 from app.models import Product
 from app import app, db
 
-product_routes = Blueprint(name='product', import_name=__name__, template_folder='../templates', url_prefix='/product')
+product_routes = Blueprint(name='product', import_name=__name__, template_folder='templates', url_prefix='/product')
 
 def load_data():
     firstName, lastName = current_user.split()
@@ -19,7 +19,7 @@ def load_data():
 @product_routes.route('/', methods=['GET'])
 @login_required
 def render_table_product():   
-    return render_template('product/homepage.html', data = load_data())
+    return render_template('homepage_products.html', data = load_data())
 
 @product_routes.route('/list-all', methods=['GET','POST'])
 @login_required

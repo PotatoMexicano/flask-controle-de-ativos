@@ -4,7 +4,7 @@ from werkzeug.datastructures import ImmutableMultiDict
 from app.models import LogisticCenter
 from app import app, db
 
-logistic_routes = Blueprint(name='logistic', import_name=__name__, template_folder='templates', url_prefix='/logistic')
+logistic_routes = Blueprint(name='logistic', import_name=__name__, template_folder='./templates', url_prefix='/logistic')
 
 def load_data():
     firstName, lastName = current_user.split()
@@ -20,7 +20,7 @@ def load_data():
 @login_required
 def render_table_logistic_center():   
 
-    return render_template('homepage.html', data = load_data())
+    return render_template('homepage_logistic_center.html', data = load_data())
 
 @logistic_routes.route('/add', methods=['POST'])
 @login_required
